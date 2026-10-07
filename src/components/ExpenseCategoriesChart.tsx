@@ -21,12 +21,12 @@ export const ExpenseCategoriesChart: React.FC<ExpenseCategoriesChartProps> = ({ 
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (
-        <div className="bg-[#0b101d]/95 border border-white/10 p-3 rounded-xl shadow-2xl backdrop-blur-xl">
-          <p className="text-xs font-semibold text-slate-300 mb-1">{data.name}</p>
-          <p className="text-sm font-bold text-white font-mono">
+        <div className="bg-white border border-gray-200 p-3 rounded-2xl shadow-xl">
+          <p className="text-xs font-bold text-gray-800 mb-0.5">{data.name}</p>
+          <p className="text-sm font-bold text-gray-900 font-sans">
             {formatCurrency(data.value, currency)}
           </p>
-          <span className="text-[11px] text-emerald-400 font-mono font-medium">
+          <span className="text-[11px] text-blue-600 font-medium">
             {data.percentage}% del total mensual
           </span>
         </div>
@@ -36,22 +36,22 @@ export const ExpenseCategoriesChart: React.FC<ExpenseCategoriesChartProps> = ({ 
   };
 
   return (
-    <div className="glass-panel rounded-2xl p-5 border border-white/[0.08] flex flex-col justify-between">
+    <div className="bg-white rounded-[28px] p-5 sm:p-6 border border-gray-200/80 shadow-md flex flex-col justify-between">
       {/* Header */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
-              <PieIcon className="w-4 h-4 text-emerald-400" />
+          <div className="flex items-center gap-2.5">
+            <div className="p-2 rounded-2xl bg-blue-50 text-[#1e3fe4]">
+              <PieIcon className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-white tracking-tight">
+              <h3 className="text-sm sm:text-base font-bold text-gray-900 tracking-tight">
                 Distribución por Categorías
               </h3>
-              <p className="text-xs text-slate-400">Desglose de gastos de Octubre</p>
+              <p className="text-xs text-gray-500">Desglose de gastos de Octubre</p>
             </div>
           </div>
-          <span className="text-xs font-mono font-bold text-slate-300 px-2 py-0.5 rounded-md bg-white/[0.04] border border-white/10">
+          <span className="text-xs font-bold text-gray-700 px-3 py-1 rounded-full bg-gray-50 border border-gray-200">
             {formatCurrency(totalExpenseMonth, currency)}
           </span>
         </div>
@@ -84,11 +84,11 @@ export const ExpenseCategoriesChart: React.FC<ExpenseCategoriesChartProps> = ({ 
 
           {/* Centered label */}
           <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-            <span className="text-[10px] uppercase font-mono tracking-wider text-slate-400 font-medium">
+            <span className="text-[10px] uppercase font-mono text-gray-400 font-medium">
               Categoría Top
             </span>
-            <span className="text-xs font-bold text-white">Alimentación</span>
-            <span className="text-[11px] font-mono font-bold text-emerald-400">36.2%</span>
+            <span className="text-xs font-bold text-gray-900">Alimentación</span>
+            <span className="text-[11px] font-bold text-emerald-600">36.2%</span>
           </div>
         </div>
       </div>
@@ -103,19 +103,19 @@ export const ExpenseCategoriesChart: React.FC<ExpenseCategoriesChartProps> = ({ 
                   className="w-2.5 h-2.5 rounded-full"
                   style={{ backgroundColor: cat.color }}
                 />
-                <span className="text-slate-300 font-medium group-hover:text-white transition-colors">
+                <span className="text-gray-700 font-medium group-hover:text-black transition-colors">
                   {cat.name}
                 </span>
               </div>
-              <div className="flex items-center gap-2 font-mono">
-                <span className="text-slate-400 text-[11px]">{cat.percentage}%</span>
-                <span className="text-slate-200 font-semibold">
+              <div className="flex items-center gap-2 font-sans">
+                <span className="text-gray-400 text-[11px]">{cat.percentage}%</span>
+                <span className="text-gray-800 font-bold">
                   {formatCurrency(cat.value, currency)}
                 </span>
               </div>
             </div>
-            {/* Mini Progress Bar */}
-            <div className="w-full h-1 bg-white/[0.06] rounded-full overflow-hidden">
+            {/* Progress Bar */}
+            <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
               <div
                 className="h-full rounded-full transition-all duration-500"
                 style={{

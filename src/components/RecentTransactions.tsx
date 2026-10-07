@@ -41,61 +41,61 @@ export const RecentTransactions: React.FC<RecentTransactionsProps> = ({
   });
 
   return (
-    <div className="glass-panel rounded-2xl p-5 border border-white/[0.08]">
+    <div className="bg-white rounded-[28px] p-5 sm:p-6 border border-gray-200/80 shadow-md">
       {/* Header & Controls */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5">
         <div>
           <div className="flex items-center gap-2">
-            <h3 className="text-base font-bold text-white tracking-tight">
-              Últimos Movimientos
+            <h3 className="text-base font-bold text-gray-900 tracking-tight">
+              Libro Mayor de Movimientos
             </h3>
-            <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-white/[0.05] border border-white/10 text-slate-300">
+            <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-gray-100 text-gray-700 font-semibold">
               {filteredTransactions.length} registros
             </span>
           </div>
-          <p className="text-xs text-slate-400">Historial en tiempo real con categorización contextual</p>
+          <p className="text-xs text-gray-500">Historial en tiempo real con categorización inteligente</p>
         </div>
 
         {/* Filter Badges & Search */}
         <div className="flex flex-wrap items-center gap-2">
           {/* Quick Filter Tabs */}
-          <div className="flex items-center bg-[#080d1b] border border-white/10 rounded-xl p-1 text-xs">
+          <div className="flex items-center bg-gray-100 p-1 rounded-full text-xs">
             <button
               onClick={() => setFilterType('all')}
-              className={`px-3 py-1 rounded-lg font-medium transition-all ${
+              className={`px-3 py-1 rounded-full font-medium transition-all ${
                 filterType === 'all'
-                  ? 'bg-emerald-500/20 text-emerald-300 font-semibold border border-emerald-500/30'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-white text-gray-900 font-bold shadow-sm'
+                  : 'text-gray-500 hover:text-gray-900'
               }`}
             >
               Todos
             </button>
             <button
               onClick={() => setFilterType('expense')}
-              className={`px-3 py-1 rounded-lg font-medium transition-all ${
+              className={`px-3 py-1 rounded-full font-medium transition-all ${
                 filterType === 'expense'
-                  ? 'bg-rose-500/20 text-rose-300 font-semibold border border-rose-500/30'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-white text-rose-600 font-bold shadow-sm'
+                  : 'text-gray-500 hover:text-gray-900'
               }`}
             >
               Gastos
             </button>
             <button
               onClick={() => setFilterType('income')}
-              className={`px-3 py-1 rounded-lg font-medium transition-all ${
+              className={`px-3 py-1 rounded-full font-medium transition-all ${
                 filterType === 'income'
-                  ? 'bg-emerald-500/20 text-emerald-300 font-semibold border border-emerald-500/30'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-white text-emerald-600 font-bold shadow-sm'
+                  : 'text-gray-500 hover:text-gray-900'
               }`}
             >
               Ingresos
             </button>
             <button
               onClick={() => setFilterType('recurring')}
-              className={`px-3 py-1 rounded-lg font-medium transition-all ${
+              className={`px-3 py-1 rounded-full font-medium transition-all ${
                 filterType === 'recurring'
-                  ? 'bg-cyan-500/20 text-cyan-300 font-semibold border border-cyan-500/30'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-white text-blue-600 font-bold shadow-sm'
+                  : 'text-gray-500 hover:text-gray-900'
               }`}
             >
               Recurrentes
@@ -104,13 +104,13 @@ export const RecentTransactions: React.FC<RecentTransactionsProps> = ({
 
           {/* Quick Search */}
           <div className="relative">
-            <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5 pointer-events-none" />
+            <Search className="w-3.5 h-3.5 text-gray-400 absolute left-3 top-2.5 pointer-events-none" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Filtrar..."
-              className="bg-[#080d1b] border border-white/10 text-xs text-slate-200 rounded-xl pl-8 pr-3 py-1.5 focus:outline-none focus:border-emerald-400 w-32 sm:w-40"
+              className="bg-gray-100 border border-transparent focus:border-gray-300 text-xs text-gray-900 rounded-full pl-8 pr-3 py-1.5 focus:outline-none w-32 sm:w-40"
             />
           </div>
         </div>
@@ -119,7 +119,7 @@ export const RecentTransactions: React.FC<RecentTransactionsProps> = ({
       {/* Transactions List */}
       <div className="space-y-2.5">
         {filteredTransactions.length === 0 ? (
-          <div className="py-12 text-center text-slate-400 text-xs">
+          <div className="py-12 text-center text-gray-400 text-xs">
             No se encontraron movimientos con los filtros seleccionados.
           </div>
         ) : (
@@ -128,43 +128,43 @@ export const RecentTransactions: React.FC<RecentTransactionsProps> = ({
             return (
               <div
                 key={tx.id}
-                className="flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-xl bg-white/[0.02] hover:bg-white/[0.04] border border-white/[0.06] hover:border-white/15 transition-all gap-3 group"
+                className="flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-2xl bg-gray-50/70 hover:bg-gray-50 border border-gray-200/60 hover:border-gray-300 transition-all gap-3"
               >
                 {/* Left: Icon & Details */}
                 <div className="flex items-center gap-3.5">
                   <div
-                    className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border ${
+                    className={`w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 border ${
                       isIncome
-                        ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
-                        : 'bg-white/[0.03] border-white/10 text-slate-300'
+                        ? 'bg-emerald-50 border-emerald-100 text-emerald-600'
+                        : 'bg-rose-50 border-rose-100 text-rose-500'
                     }`}
                   >
                     {isIncome ? (
                       <ArrowDownLeft className="w-4 h-4 stroke-[2.5]" />
                     ) : (
-                      <ArrowUpRight className="w-4 h-4 stroke-[2.5] text-rose-400" />
+                      <ArrowUpRight className="w-4 h-4 stroke-[2.5]" />
                     )}
                   </div>
 
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="text-sm font-semibold text-white group-hover:text-emerald-300 transition-colors">
+                      <span className="text-xs sm:text-sm font-semibold text-gray-900">
                         {tx.description}
                       </span>
                       {tx.isRecurring && (
-                        <span className="inline-flex items-center gap-0.5 text-[10px] font-mono px-1.5 py-0.2 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20" title="Gasto recurrente automatizado">
+                        <span className="inline-flex items-center gap-0.5 text-[10px] font-mono px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200" title="Gasto recurrente automatizado">
                           <RefreshCw className="w-2.5 h-2.5" /> Recurrente
                         </span>
                       )}
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-2 mt-1 text-xs text-slate-400">
-                      <span className="inline-flex items-center gap-1 text-[11px] font-medium text-slate-300">
-                        <Tag className="w-3 h-3 text-emerald-400" />
-                        {tx.category} › <span className="text-slate-400">{tx.subcategory}</span>
+                    <div className="flex flex-wrap items-center gap-2 mt-0.5 text-xs text-gray-400">
+                      <span className="inline-flex items-center gap-1 text-[11px] font-medium text-gray-600">
+                        <Tag className="w-3 h-3 text-blue-600" />
+                        {tx.category} › <span className="text-gray-400">{tx.subcategory}</span>
                       </span>
-                      <span className="text-slate-600">•</span>
-                      <span className="inline-flex items-center gap-1 text-[11px] text-slate-400">
+                      <span>•</span>
+                      <span className="inline-flex items-center gap-1 text-[11px] text-gray-500">
                         <CreditCard className="w-3 h-3" />
                         {tx.paymentMethod}
                       </span>
@@ -176,19 +176,19 @@ export const RecentTransactions: React.FC<RecentTransactionsProps> = ({
                 <div className="flex items-center justify-between sm:justify-end gap-4 text-right">
                   <div>
                     <span
-                      className={`text-sm lg:text-base font-extrabold font-mono block ${
-                        isIncome ? 'text-emerald-400' : 'text-slate-200'
+                      className={`text-xs sm:text-sm font-bold font-sans block ${
+                        isIncome ? 'text-[#16a34a]' : 'text-gray-900'
                       }`}
                     >
                       {isIncome ? '+' : '-'} {formatCurrency(tx.amount, currency)}
                     </span>
-                    <span className="text-[11px] text-slate-400 font-mono">
+                    <span className="text-[11px] text-gray-400 font-sans">
                       {formatDate(tx.date)}
                     </span>
                   </div>
 
                   <div className="shrink-0">
-                    <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-[#dcfce7] text-[#16a34a]">
                       {tx.status === 'completed' ? 'Ejecutado' : 'Pendiente'}
                     </span>
                   </div>
@@ -201,10 +201,10 @@ export const RecentTransactions: React.FC<RecentTransactionsProps> = ({
 
       {/* Footer */}
       {onViewAll && (
-        <div className="pt-4 mt-3 border-t border-white/[0.06] text-center">
+        <div className="pt-3.5 mt-3 border-t border-gray-100 text-center">
           <button
             onClick={onViewAll}
-            className="text-xs font-semibold text-emerald-400 hover:text-emerald-300 inline-flex items-center gap-1.5 transition-colors"
+            className="text-xs font-semibold text-[#1e3fe4] hover:underline inline-flex items-center gap-1"
           >
             Ver todos los movimientos en el Libro Mayor <ArrowUpRight className="w-3.5 h-3.5" />
           </button>

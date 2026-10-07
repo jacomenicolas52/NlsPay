@@ -84,73 +84,70 @@ export const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
       <div 
-        className="w-full max-w-lg rounded-2xl glass-panel border border-white/10 p-6 shadow-2xl relative overflow-hidden"
+        className="w-full max-w-lg rounded-[32px] bg-white border border-gray-100 p-6 sm:p-7 shadow-2xl relative"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Glow decoration */}
-        <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none" />
-
         {/* Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-white/[0.08] mb-5">
+        <div className="flex items-center justify-between pb-3 border-b border-gray-100 mb-4">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-gradient-to-tr from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 text-emerald-400">
+            <div className="p-2 rounded-2xl bg-blue-50 text-[#1e3fe4]">
               <Plus className="w-5 h-5 stroke-[2.5]" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-white tracking-tight">
+              <h2 className="text-base sm:text-lg font-bold text-gray-900 tracking-tight">
                 Registrar Movimiento
               </h2>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-gray-500">
                 Módulo inteligente de conciliación de gastos e ingresos
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors"
+            className="p-1.5 rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3.5">
           {/* Type Selector (Gasto vs Ingreso) */}
-          <div className="grid grid-cols-2 gap-2 p-1 bg-[#080d1a] border border-white/10 rounded-xl">
+          <div className="grid grid-cols-2 gap-2 p-1 bg-gray-50 border border-gray-200 rounded-2xl">
             <button
               type="button"
               onClick={() => setType('expense')}
-              className={`flex items-center justify-center gap-2 py-2 rounded-lg text-xs font-bold transition-all ${
+              className={`flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-bold transition-all ${
                 type === 'expense'
-                  ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 shadow-sm'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-white text-rose-600 shadow-sm border border-gray-200'
+                  : 'text-gray-500 hover:text-gray-800'
               }`}
             >
-              <ArrowUpRight className="w-4 h-4 text-rose-400" />
+              <ArrowUpRight className="w-4 h-4 text-rose-500" />
               Gasto
             </button>
             <button
               type="button"
               onClick={() => setType('income')}
-              className={`flex items-center justify-center gap-2 py-2 rounded-lg text-xs font-bold transition-all ${
+              className={`flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-bold transition-all ${
                 type === 'income'
-                  ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-sm'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-white text-emerald-600 shadow-sm border border-gray-200'
+                  : 'text-gray-500 hover:text-gray-800'
               }`}
             >
-              <ArrowDownLeft className="w-4 h-4 text-emerald-400" />
+              <ArrowDownLeft className="w-4 h-4 text-emerald-500" />
               Ingreso
             </button>
           </div>
 
           {/* Amount input */}
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+            <label className="block text-xs font-semibold text-gray-700 mb-1">
               Valor / Importe ({currency})
             </label>
             <div className="relative">
-              <span className="absolute left-3.5 top-2.5 text-slate-400 font-mono text-sm">$</span>
+              <span className="absolute left-3.5 top-2.5 text-gray-400 font-sans text-sm font-bold">$</span>
               <input
                 type="number"
                 step="any"
@@ -158,14 +155,14 @@ export const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="0.00"
-                className="w-full bg-[#0a0f1f] border border-white/10 focus:border-emerald-400 text-white font-mono text-lg font-bold rounded-xl pl-8 pr-4 py-2 focus:outline-none focus:ring-1 focus:ring-emerald-400 transition-all placeholder:text-slate-600"
+                className="w-full bg-gray-50 border border-gray-200 focus:border-[#1e3fe4] text-gray-900 font-sans text-lg font-bold rounded-2xl pl-8 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all placeholder:text-gray-400"
               />
             </div>
           </div>
 
           {/* Description */}
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+            <label className="block text-xs font-semibold text-gray-700 mb-1">
               Concepto / Descripción
             </label>
             <input
@@ -173,25 +170,25 @@ export const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
               required
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Ej. Almuerzo ejecutivo, Servidores AWS, etc."
-              className="w-full bg-[#0a0f1f] border border-white/10 focus:border-emerald-400 text-white text-sm rounded-xl px-3.5 py-2 focus:outline-none focus:ring-1 focus:ring-emerald-400 transition-all placeholder:text-slate-600"
+              placeholder="Ej. Almuerzo ejecutivo, Servidores AWS, Rappi"
+              className="w-full bg-gray-50 border border-gray-200 focus:border-[#1e3fe4] text-gray-900 text-xs sm:text-sm rounded-2xl px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all placeholder:text-gray-400"
             />
           </div>
 
           {/* Categoría Inteligente & Subcategoría */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5 flex items-center gap-1.5">
-                <Tag className="w-3.5 h-3.5 text-emerald-400" />
+              <label className="block text-xs font-semibold text-gray-700 mb-1 flex items-center gap-1.5">
+                <Tag className="w-3.5 h-3.5 text-blue-600" />
                 Categoría Inteligente
               </label>
               <select
                 value={selectedCategory}
                 onChange={(e) => handleCategoryChange(e.target.value)}
-                className="w-full bg-[#0a0f1f] border border-white/10 focus:border-emerald-400 text-white text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-1 focus:ring-emerald-400 transition-all"
+                className="w-full bg-gray-50 border border-gray-200 focus:border-[#1e3fe4] text-gray-900 text-xs rounded-2xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
               >
                 {CATEGORIES.map((cat) => (
-                  <option key={cat.id} value={cat.name} className="bg-[#0b101d] text-white">
+                  <option key={cat.id} value={cat.name}>
                     {cat.name}
                   </option>
                 ))}
@@ -199,17 +196,17 @@ export const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5 flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-                Subcategoría Contextual
+              <label className="block text-xs font-semibold text-gray-700 mb-1 flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+                Subcategoría
               </label>
               <select
                 value={selectedSubcategory}
                 onChange={(e) => setSelectedSubcategory(e.target.value)}
-                className="w-full bg-[#0a0f1f] border border-white/10 focus:border-emerald-400 text-white text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-1 focus:ring-emerald-400 transition-all"
+                className="w-full bg-gray-50 border border-gray-200 focus:border-[#1e3fe4] text-gray-900 text-xs rounded-2xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
               >
                 {activeCategoryObj.subcategories.map((sub, i) => (
-                  <option key={i} value={sub} className="bg-[#0b101d] text-white">
+                  <option key={i} value={sub}>
                     {sub}
                   </option>
                 ))}
@@ -220,17 +217,17 @@ export const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
           {/* Payment Method & Date */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5 flex items-center gap-1.5">
-                <CreditCard className="w-3.5 h-3.5 text-cyan-400" />
+              <label className="block text-xs font-semibold text-gray-700 mb-1 flex items-center gap-1.5">
+                <CreditCard className="w-3.5 h-3.5 text-blue-600" />
                 Método de Pago
               </label>
               <select
                 value={paymentMethod}
                 onChange={(e) => setPaymentMethod(e.target.value as PaymentMethod)}
-                className="w-full bg-[#0a0f1f] border border-white/10 focus:border-emerald-400 text-white text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-1 focus:ring-emerald-400 transition-all"
+                className="w-full bg-gray-50 border border-gray-200 focus:border-[#1e3fe4] text-gray-900 text-xs rounded-2xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
               >
                 {PAYMENT_METHODS.map((pm, i) => (
-                  <option key={i} value={pm} className="bg-[#0b101d] text-white">
+                  <option key={i} value={pm}>
                     {pm}
                   </option>
                 ))}
@@ -238,30 +235,30 @@ export const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5 flex items-center gap-1.5">
-                <Calendar className="w-3.5 h-3.5 text-emerald-400" />
+              <label className="block text-xs font-semibold text-gray-700 mb-1 flex items-center gap-1.5">
+                <Calendar className="w-3.5 h-3.5 text-blue-600" />
                 Fecha
               </label>
               <input
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="w-full bg-[#0a0f1f] border border-white/10 focus:border-emerald-400 text-white text-xs rounded-xl px-3 py-2 focus:outline-none focus:ring-1 focus:ring-emerald-400 transition-all"
+                className="w-full bg-gray-50 border border-gray-200 focus:border-[#1e3fe4] text-gray-900 text-xs rounded-2xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
               />
             </div>
           </div>
 
           {/* Recurring Toggle Switch */}
-          <div className="flex items-center justify-between p-3 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+          <div className="flex items-center justify-between p-3 rounded-2xl bg-gray-50 border border-gray-200/80">
             <div className="flex items-center gap-2.5">
-              <div className="p-1.5 rounded-lg bg-cyan-500/10 text-cyan-400">
+              <div className="p-1.5 rounded-xl bg-blue-100 text-blue-600">
                 <Repeat className="w-4 h-4" />
               </div>
               <div>
-                <span className="text-xs font-semibold text-white block">
+                <span className="text-xs font-semibold text-gray-900 block">
                   Movimiento Recurrente
                 </span>
-                <span className="text-[11px] text-slate-400">
+                <span className="text-[11px] text-gray-500">
                   Registrar automáticamente cada periodo mensual
                 </span>
               </div>
@@ -271,7 +268,7 @@ export const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
               type="button"
               onClick={() => setIsRecurring(!isRecurring)}
               className={`w-11 h-6 rounded-full transition-colors relative p-0.5 ${
-                isRecurring ? 'bg-emerald-500' : 'bg-slate-700'
+                isRecurring ? 'bg-[#1e3fe4]' : 'bg-gray-300'
               }`}
             >
               <div
@@ -283,18 +280,18 @@ export const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
           </div>
 
           {/* Action buttons */}
-          <div className="flex items-center justify-end gap-3 pt-3 border-t border-white/[0.08]">
+          <div className="flex items-center justify-end gap-2 pt-3 border-t border-gray-100">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/[0.05] transition-colors"
+              className="px-4 py-2 rounded-full text-xs font-semibold text-gray-500 hover:text-gray-800 transition-colors"
             >
               Cancelar
             </button>
 
             <button
               type="submit"
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-bold text-xs shadow-glow-teal hover:shadow-[0_0_25px_rgba(20,241,149,0.35)] transition-all"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#1b3ee3] hover:bg-[#1634c4] text-white font-bold text-xs shadow-md transition-all"
             >
               <Plus className="w-4 h-4 stroke-[2.5]" />
               Guardar Movimiento

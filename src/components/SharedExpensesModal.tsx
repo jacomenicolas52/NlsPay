@@ -32,7 +32,7 @@ export const SharedExpensesView: React.FC<SharedExpensesModalProps> = ({ currenc
       total,
       members,
       yourShare: Math.round(total / members),
-      status: `Pendiente de cobro (${members - 1} pendientes)`,
+      status: `Pendiente (${members - 1} por pagar)`,
       date: 'Hoy'
     };
 
@@ -43,21 +43,21 @@ export const SharedExpensesView: React.FC<SharedExpensesModalProps> = ({ currenc
   };
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 animate-in fade-in duration-200">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h2 className="text-lg font-bold text-white tracking-tight flex items-center gap-2">
-            <Users className="w-5 h-5 text-cyan-400" />
+          <h2 className="text-base sm:text-lg font-bold text-gray-900 tracking-tight flex items-center gap-2">
+            <Users className="w-5 h-5 text-[#1e3fe4]" />
             Cuentas Compartidas & Grupos
           </h2>
-          <p className="text-xs text-slate-400">
-            División algorítmica de cuentas en salidas, viajes y proyectos en equipo
+          <p className="text-xs text-gray-500">
+            División algorítmica de cuentas en salidas, viajes y proyectos
           </p>
         </div>
 
         <button
           onClick={() => setIsCreating(!isCreating)}
-          className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/30 text-xs font-semibold transition-all"
+          className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#1e3fe4] text-white text-xs font-semibold shadow hover:bg-blue-700 transition-all"
         >
           <Plus className="w-4 h-4" />
           <span>Dividir Nueva Cuenta</span>
@@ -66,40 +66,40 @@ export const SharedExpensesView: React.FC<SharedExpensesModalProps> = ({ currenc
 
       {/* Creation form */}
       {isCreating && (
-        <form onSubmit={handleCreateSplit} className="glass-panel p-5 rounded-2xl border border-cyan-500/30 space-y-3">
-          <h3 className="text-sm font-bold text-white">Nueva división grupal</h3>
+        <form onSubmit={handleCreateSplit} className="bg-white p-5 rounded-[28px] border border-gray-200 shadow-md space-y-3">
+          <h3 className="text-sm font-bold text-gray-900">Nueva división grupal</h3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
-              <label className="block text-[11px] text-slate-400 mb-1">Concepto</label>
+              <label className="block text-[11px] text-gray-600 mb-1 font-semibold">Concepto</label>
               <input
                 type="text"
                 required
                 value={newTitle}
                 onChange={(e) => setNewTitle(e.target.value)}
                 placeholder="Ej. Asado fin de semana"
-                className="w-full bg-[#090e1b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white"
+                className="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-xs text-gray-900"
               />
             </div>
             <div>
-              <label className="block text-[11px] text-slate-400 mb-1">Monto Total ({currency})</label>
+              <label className="block text-[11px] text-gray-600 mb-1 font-semibold">Monto Total ({currency})</label>
               <input
                 type="number"
                 required
                 value={newAmount}
                 onChange={(e) => setNewAmount(e.target.value)}
                 placeholder="0"
-                className="w-full bg-[#090e1b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white font-mono"
+                className="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-xs text-gray-900 font-sans"
               />
             </div>
             <div>
-              <label className="block text-[11px] text-slate-400 mb-1">Nº de Integrantes</label>
+              <label className="block text-[11px] text-gray-600 mb-1 font-semibold">Nº de Integrantes</label>
               <input
                 type="number"
                 min="2"
                 max="20"
                 value={newMembers}
                 onChange={(e) => setNewMembers(e.target.value)}
-                className="w-full bg-[#090e1b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white font-mono"
+                className="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-xs text-gray-900 font-sans"
               />
             </div>
           </div>
@@ -107,13 +107,13 @@ export const SharedExpensesView: React.FC<SharedExpensesModalProps> = ({ currenc
             <button
               type="button"
               onClick={() => setIsCreating(false)}
-              className="px-3 py-1.5 text-xs text-slate-400 hover:text-white"
+              className="px-3.5 py-1.5 text-xs text-gray-500 hover:text-gray-800"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              className="px-4 py-1.5 rounded-xl bg-cyan-500 text-slate-950 font-bold text-xs"
+              className="px-4 py-1.5 rounded-full bg-[#1e3fe4] text-white font-bold text-xs shadow"
             >
               Crear División
             </button>
@@ -124,33 +124,36 @@ export const SharedExpensesView: React.FC<SharedExpensesModalProps> = ({ currenc
       {/* List */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {splits.map((s) => (
-          <div key={s.id} className="glass-card rounded-2xl p-4 border border-white/10 space-y-3">
+          <div key={s.id} className="bg-white rounded-[24px] p-5 border border-gray-200/80 shadow-sm space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-bold text-white">{s.title}</span>
-              <span className="text-[11px] font-mono text-slate-400">{s.date}</span>
+              <span className="text-sm font-bold text-gray-900">{s.title}</span>
+              <span className="text-[11px] text-gray-400 font-sans">{s.date}</span>
             </div>
 
             <div className="flex items-center justify-between text-xs">
-              <span className="text-slate-400">Total de la cuenta:</span>
-              <span className="font-mono font-bold text-white">{formatCurrency(s.total, currency)}</span>
+              <span className="text-gray-500">Total de la cuenta:</span>
+              <span className="font-bold text-gray-900 font-sans">{formatCurrency(s.total, currency)}</span>
             </div>
 
-            <div className="flex items-center justify-between p-2.5 rounded-xl bg-cyan-950/20 border border-cyan-500/20 text-xs">
+            <div className="flex items-center justify-between p-3 rounded-2xl bg-blue-50/80 border border-blue-100 text-xs">
               <div className="flex items-center gap-2">
-                <UserCheck className="w-4 h-4 text-cyan-400" />
-                <span className="text-slate-300">Tu parte proporcional ({s.members} personas):</span>
+                <UserCheck className="w-4 h-4 text-[#1e3fe4]" />
+                <span className="text-gray-700">Tu parte ({s.members} personas):</span>
               </div>
-              <span className="font-mono font-bold text-cyan-300">
+              <span className="font-bold text-[#1e3fe4] font-sans">
                 {formatCurrency(s.yourShare, currency)}
               </span>
             </div>
 
-            <div className="flex items-center justify-between pt-2 border-t border-white/[0.06] text-[11px]">
-              <span className="text-slate-400 flex items-center gap-1">
-                <Clock className="w-3 h-3 text-amber-400" />
+            <div className="flex items-center justify-between pt-2 border-t border-gray-100 text-[11px]">
+              <span className="text-gray-500 flex items-center gap-1">
+                <Clock className="w-3.5 h-3.5 text-amber-500" />
                 {s.status}
               </span>
-              <button className="text-cyan-400 hover:underline font-semibold flex items-center gap-1">
+              <button 
+                onClick={() => alert(`Enlace de cobro para ${s.title} copiado al portapapeles.`)}
+                className="text-[#1e3fe4] hover:underline font-semibold flex items-center gap-1"
+              >
                 Cobrar link <ArrowRight className="w-3 h-3" />
               </button>
             </div>
