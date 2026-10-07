@@ -1,59 +1,61 @@
 import React, { useState } from 'react';
 import { ChevronDown, Info } from 'lucide-react';
 import type { StatisticTransaction } from '../types';
+import { useLanguage } from '../context/LanguageContext';
 
 interface StatisticPanelProps {
   transactions: StatisticTransaction[];
 }
 
 export const StatisticPanel: React.FC<StatisticPanelProps> = ({ transactions }) => {
-  const [period, setPeriod] = useState('This week');
+  const { t } = useLanguage();
+  const [isWeekly, setIsWeekly] = useState(true);
 
   return (
-    <div className="w-full lg:w-[360px] xl:w-[400px] bg-white rounded-[32px] p-6 shadow-xl shadow-gray-100/80 border border-[#f0f2f5] flex flex-col justify-between shrink-0">
+    <div className="w-full lg:w-[360px] xl:w-[400px] bg-white rounded-[32px] p-6 shadow-xl shadow-gray-100/80 border border-[#C8D9E6]/70 flex flex-col justify-between shrink-0">
       
       {/* Top Header */}
       <div>
         <div className="flex items-center justify-between mb-5">
-          <div className="flex items-center gap-1.5 text-base font-bold text-[#111827]">
-            <span>Statistic</span>
-            <Info className="w-3.5 h-3.5 text-[#9ca3af]" />
+          <div className="flex items-center gap-1.5 text-base font-bold text-[#2F4156]">
+            <span>{t.statTitle}</span>
+            <Info className="w-3.5 h-3.5 text-[#567C8D]" />
           </div>
 
           {/* Period Selector Dropdown */}
           <button 
-            onClick={() => setPeriod(period === 'This week' ? 'This month' : 'This week')}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-gray-50 hover:bg-gray-100 text-xs text-[#6b7280] font-medium cursor-pointer transition-colors border border-gray-100"
+            onClick={() => setIsWeekly(!isWeekly)}
+            className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-[#F5EFEB]/70 hover:bg-[#F5EFEB] text-xs text-[#2F4156] font-semibold cursor-pointer transition-colors border border-[#C8D9E6]"
           >
-            <span>{period}</span>
-            <ChevronDown className="w-3.5 h-3.5 text-[#9ca3af]" />
+            <span>{isWeekly ? t.thisWeek : t.thisMonth}</span>
+            <ChevronDown className="w-3.5 h-3.5 text-[#567C8D]" />
           </button>
         </div>
 
-        {/* Donut Chart with Floating Badge */}
+        {/* Donut Chart in Navy (#2F4156) & Teal (#567C8D) */}
         <div className="relative flex flex-col items-center justify-center my-4">
           <div className="relative w-44 h-44 flex items-center justify-center">
-            {/* SVG Donut Chart matching Image 1 */}
+            {/* SVG Donut Chart */}
             <svg className="w-full h-full transform -rotate-90" viewBox="0 0 160 160">
-              {/* Black / Dark segment (Money transactions - ~35%) */}
+              {/* Navy segment (Money transactions - ~35%) */}
               <circle
                 cx="80"
                 cy="80"
                 r="60"
                 fill="none"
-                stroke="#1f2127"
+                stroke="#2F4156"
                 strokeWidth="20"
                 strokeDasharray="377"
                 strokeDashoffset="130"
                 strokeLinecap="round"
               />
-              {/* Blue segment (Payment at store - ~65%) */}
+              {/* Teal segment (Payment at store - ~65%) */}
               <circle
                 cx="80"
                 cy="80"
                 r="60"
                 fill="none"
-                stroke="#7096f8"
+                stroke="#567C8D"
                 strokeWidth="20"
                 strokeDasharray="377"
                 strokeDashoffset="245"
@@ -63,46 +65,45 @@ export const StatisticPanel: React.FC<StatisticPanelProps> = ({ transactions }) 
 
             {/* Centered Total Text */}
             <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-              <span className="text-[11px] text-[#9ca3af] font-medium">Total</span>
-              <span className="text-base font-extrabold text-[#111827] tracking-tight">
+              <span className="text-[11px] text-[#567C8D] font-bold uppercase tracking-wider">{t.total}</span>
+              <span className="text-base font-extrabold text-[#2F4156] tracking-tight">
                 $14,810.0
               </span>
             </div>
 
-            {/* Floating Pill on Blue Segment matching Image 1 */}
-            <div className="absolute top-10 right-0 transform translate-x-3 -translate-y-1 bg-[#1f2127] text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-md">
+            {/* Floating Pill on Teal Segment */}
+            <div className="absolute top-10 right-0 transform translate-x-3 -translate-y-1 bg-[#2F4156] text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full shadow-md border border-[#C8D9E6]">
               $9,560.0
             </div>
           </div>
 
           {/* Legend */}
-          <div className="flex items-center justify-center gap-4 mt-3 text-[11px] text-[#6b7280]">
+          <div className="flex items-center justify-center gap-4 mt-3 text-[11px] text-[#567C8D] font-medium">
             <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-md bg-[#7096f8]" />
-              <span>Payment at the store</span>
+              <span className="w-2.5 h-2.5 rounded-md bg-[#567C8D]" />
+              <span>{t.paymentAtStore}</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-md bg-[#1f2127]" />
-              <span>Money transaction</span>
+              <span className="w-2.5 h-2.5 rounded-md bg-[#2F4156]" />
+              <span>{t.moneyTransaction}</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Transactions List */}
-      <div className="space-y-3.5 mt-5 pt-3 border-t border-gray-100">
+      <div className="space-y-3.5 mt-5 pt-3 border-t border-[#F5EFEB]">
         {transactions.map((tx) => {
           const isStore = tx.category === 'Payment at the store';
           return (
             <div key={tx.id} className="flex items-center justify-between group">
               {/* Left: Icon & Title */}
               <div className="flex items-center gap-3">
-                {/* Brand circle icon matching Image 1 */}
                 <div
                   className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 ${
                     isStore
-                      ? 'bg-[#e2ecfe] text-[#2563eb]'
-                      : 'bg-[#1f2127] text-white'
+                      ? 'bg-[#C8D9E6]/40 text-[#567C8D]'
+                      : 'bg-[#2F4156] text-white'
                   }`}
                 >
                   {tx.icon === 'spotify' && (
@@ -126,10 +127,10 @@ export const StatisticPanel: React.FC<StatisticPanelProps> = ({ transactions }) 
                 </div>
 
                 <div>
-                  <h4 className="text-xs sm:text-sm font-semibold text-[#111827] leading-tight">
+                  <h4 className="text-xs sm:text-sm font-semibold text-[#2F4156] leading-tight">
                     {tx.title}
                   </h4>
-                  <p className="text-[10px] sm:text-[11px] text-[#9ca3af]">
+                  <p className="text-[10px] sm:text-[11px] text-[#567C8D]">
                     {tx.timeAgo}
                   </p>
                 </div>
@@ -137,7 +138,7 @@ export const StatisticPanel: React.FC<StatisticPanelProps> = ({ transactions }) 
 
               {/* Right: Amount */}
               <div className="text-right">
-                <span className="text-xs sm:text-sm font-bold text-[#111827] font-sans">
+                <span className="text-xs sm:text-sm font-bold text-[#2F4156] font-sans">
                   {tx.amount}$
                 </span>
               </div>

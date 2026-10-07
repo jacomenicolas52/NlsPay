@@ -268,7 +268,7 @@ export const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
               type="button"
               onClick={() => setIsRecurring(!isRecurring)}
               className={`w-11 h-6 rounded-full transition-colors relative p-0.5 ${
-                isRecurring ? 'bg-[#1e3fe4]' : 'bg-gray-300'
+                isRecurring ? 'bg-[#567C8D]' : 'bg-gray-300'
               }`}
             >
               <div
@@ -291,7 +291,7 @@ export const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
 
             <button
               type="submit"
-              className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#1b3ee3] hover:bg-[#1634c4] text-white font-bold text-xs shadow-md transition-all"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#567C8D] hover:bg-[#2F4156] text-white font-bold text-xs shadow-md transition-all"
             >
               <Plus className="w-4 h-4 stroke-[2.5]" />
               Guardar Movimiento

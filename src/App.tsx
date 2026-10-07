@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { AuthScreen } from './components/AuthScreen';
+import { OnboardingScreen } from './components/OnboardingScreen';
 import { NikitinSidebar } from './components/NikitinSidebar';
 import { NikitinTopbar } from './components/NikitinTopbar';
 import { CardsCarousel } from './components/CardsCarousel';
@@ -17,10 +18,11 @@ import { ReceiptScannerModal } from './components/ReceiptScannerModal';
 import { SharedExpensesView } from './components/SharedExpensesModal';
 import { ExpenseMapView } from './components/ExpenseMapView';
 import { AddTransactionModal } from './components/AddTransactionModal';
+import { LanguageProvider, useLanguage } from './context/LanguageContext';
 import { 
   DEFAULT_CARDS, 
   RECENT_SALES, 
-  STATISTIC_TRANSACTIONS,
+  STATISTIC_TRANSACTIONS, 
   INITIAL_TRANSACTIONS,
   MONTHLY_CASHFLOW,
   BUDGETS,
@@ -30,9 +32,12 @@ import {
 import type { User, CardData, RecentSale, Transaction } from './types';
 import { CheckCircle2, X, Sparkles, Layers } from 'lucide-react';
 
-export function App() {
+function AppContent() {
+  const { t } = useLanguage();
+
   // Login appears first as requested ("primero que todo debe aparecer primero el login")
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [showOnboarding, setShowOnboarding] = useState(false);
 
   // State with localStorage persistence
   const [cards, setCards] = useState<CardData[]>(() => {
@@ -83,6 +88,7 @@ export function App() {
   const handleLogout = () => {
     localStorage.removeItem('nlspay_session');
     setCurrentUser(null);
+    setShowOnboarding(false);
   };
 
   const handleAddCard = (newCard: CardData) => {
@@ -164,33 +170,50 @@ export function App() {
     s.senderName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // If user is not authenticated, show the Login/Register Screen (Image 2)
+  // 1. If user is not authenticated, show AuthScreen (Option 1 only with fintech background)
   if (!currentUser) {
-    return <AuthScreen onLoginSuccess={(user) => setCurrentUser(user)} />;
+    return (
+      <AuthScreen 
+        onLoginSuccess={(user) => {
+          setCurrentUser(user);
+          setShowOnboarding(true);
+        }} 
+      />
+    );
   }
 
-  // Once authenticated, show the redesigned Dashboard (Image 1) with all core modules
+  // 2. If authenticated and in onboarding flow, show the 3-step OnboardingScreen
+  if (showOnboarding) {
+    return (
+      <OnboardingScreen
+        user={currentUser}
+        onFinish={() => setShowOnboarding(false)}
+      />
+    );
+  }
+
+  // Once authenticated, show the redesigned Dashboard in corporate palette (Navy, Teal, Sky Blue, Beige, White)
   return (
-    <div className="min-h-screen w-full bg-[#1e2026] flex items-center justify-center p-2 sm:p-4 md:p-8 font-sans selection:bg-blue-500/20 selection:text-blue-700">
+    <div className="min-h-screen w-full bg-[#2F4156] flex items-center justify-center p-2 sm:p-4 md:p-8 font-sans selection:bg-[#C8D9E6] selection:text-[#2F4156]">
       
       {/* Toast Notification */}
       {notification && (
-        <div className="fixed top-6 right-6 z-50 flex items-center gap-2.5 px-4 py-3 rounded-2xl bg-white border border-gray-200 text-gray-900 text-xs font-semibold shadow-2xl animate-in fade-in slide-in-from-top-4">
-          <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+        <div className="fixed top-6 right-6 z-50 flex items-center gap-2.5 px-4 py-3 rounded-2xl bg-white border border-[#C8D9E6] text-[#2F4156] text-xs font-bold shadow-2xl animate-in fade-in slide-in-from-top-4">
+          <CheckCircle2 className="w-4 h-4 text-[#16a34a] shrink-0" />
           <span>{notification}</span>
           <button
             onClick={() => setNotification(null)}
-            className="text-gray-400 hover:text-gray-700 ml-2"
+            className="text-[#567C8D] hover:text-[#2F4156] ml-2"
           >
             <X className="w-3.5 h-3.5" />
           </button>
         </div>
       )}
 
-      {/* Main Tablet/Device Bezel Container (Matching Image 1) */}
-      <div className="w-full max-w-[1440px] min-h-[860px] bg-[#18191d] rounded-[38px] sm:rounded-[44px] p-2 sm:p-3.5 shadow-2xl flex border border-[#262830] overflow-hidden">
+      {/* Main Tablet/Device Bezel Container */}
+      <div className="w-full max-w-[1440px] min-h-[860px] bg-[#1e2d3d] rounded-[38px] sm:rounded-[44px] p-2 sm:p-3.5 shadow-2xl flex border border-[#567C8D]/40 overflow-hidden">
         
-        {/* Left Dark Sidebar with Geometric 'N' Logo and All Core Modules */}
+        {/* Left Dark Sidebar with Geometric NlsPay Logo */}
         <NikitinSidebar
           currentTab={currentTab}
           setCurrentTab={setCurrentTab}
@@ -198,20 +221,20 @@ export function App() {
           onOpenScanner={() => setIsScannerModalOpen(true)}
         />
 
-        {/* Main Content Area: Light Canvas with Subtle Topo Curves */}
-        <div className="flex-1 bg-[#f4f5f8] rounded-r-[32px] sm:rounded-r-[36px] p-4 sm:p-6 lg:p-7 overflow-y-auto relative flex flex-col justify-between">
+        {/* Main Content Area: Soft Beige Canvas */}
+        <div className="flex-1 bg-[#F5EFEB] rounded-r-[32px] sm:rounded-r-[36px] p-4 sm:p-6 lg:p-7 overflow-y-auto relative flex flex-col justify-between">
           
-          {/* Subtle Topographic Background Lines matching Image 1 */}
+          {/* Subtle Topographic Background Lines */}
           <div 
             className="absolute inset-0 opacity-[0.035] pointer-events-none"
             style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='800' height='800' viewBox='0 0 800 800' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M100 200 C 300 150, 500 250, 700 200 M50 400 C 250 350, 550 450, 750 400 M120 600 C 320 550, 480 650, 680 600' stroke='%23000' stroke-width='1.5' fill='none'/%3E%3C/svg%3E")`,
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='800' height='800' viewBox='0 0 800 800' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M100 200 C 300 150, 500 250, 700 200 M50 400 C 250 350, 550 450, 750 400 M120 600 C 320 550, 480 650, 680 600' stroke='%232F4156' stroke-width='1.5' fill='none'/%3E%3C/svg%3E")`,
               backgroundSize: '800px 800px'
             }}
           />
 
           <div className="relative z-10 space-y-6">
-            {/* Topbar: Greetings + Search + Currency + "+ Nuevo Gasto" + My account */}
+            {/* Topbar: Greetings + Search + Language Switcher + Currency + "+ Nuevo Gasto" + My account */}
             <NikitinTopbar
               currentUser={currentUser}
               onLogout={handleLogout}
@@ -222,10 +245,10 @@ export function App() {
               setCurrency={setCurrency}
             />
 
-            {/* TAB 1: DASHBOARD PRINCIPAL (Combines Image 1 Layout + Core Summary in <10s) */}
+            {/* TAB 1: DASHBOARD PRINCIPAL */}
             {currentTab === 'dashboard' && (
               <div className="space-y-6">
-                {/* 1. KPI Metric Cards (Resumen en menos de 10 segundos) */}
+                {/* 1. KPI Metric Cards */}
                 <MetricCards
                   totalBalance={totalBalance}
                   totalIncome={totalIncome}
@@ -238,7 +261,7 @@ export function App() {
                   
                   {/* Left Column */}
                   <div className="flex-1 w-full space-y-5">
-                    {/* Visual Cards Carousel (Black Visa & White Mastercard) */}
+                    {/* Visual Cards Carousel */}
                     <CardsCarousel
                       cards={cards}
                       onAddCard={handleAddCard}
@@ -250,7 +273,7 @@ export function App() {
                       onActionClick={handleActionClick}
                     />
 
-                    {/* IA de Salud Financiera (Diferenciador en el Dashboard) */}
+                    {/* IA de Salud Financiera */}
                     <AIHealthWidget
                       insights={AI_INSIGHTS}
                       currency={currency}
@@ -290,14 +313,14 @@ export function App() {
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h2 className="text-xl font-bold text-gray-900">Módulo de Gastos e Ingresos</h2>
-                    <p className="text-xs text-gray-500">Gestión clasificada con categorías y subcategorías inteligentes</p>
+                    <h2 className="text-xl font-bold text-[#2F4156]">{t.navTransactions}</h2>
+                    <p className="text-xs text-[#567C8D]">Gestión clasificada con categorías y subcategorías inteligentes</p>
                   </div>
                   <button
                     onClick={() => setIsAddTransactionModalOpen(true)}
-                    className="px-5 py-2.5 rounded-full bg-[#1e3fe4] hover:bg-blue-700 text-white font-semibold text-xs shadow-md transition-all"
+                    className="px-5 py-2.5 rounded-full bg-[#567C8D] hover:bg-[#2F4156] text-white font-bold text-xs shadow-md transition-all"
                   >
-                    + Registrar Movimiento
+                    {t.recordMovement}
                   </button>
                 </div>
                 <RecentTransactions
@@ -343,21 +366,21 @@ export function App() {
                   onActionSuccess={showToast}
                 />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <div className="bg-white p-6 rounded-[28px] border border-gray-200/80 shadow-md">
-                    <h4 className="text-sm font-bold text-gray-900 mb-2 flex items-center gap-2">
-                      <Sparkles className="w-4 h-4 text-blue-600" />
+                  <div className="bg-white p-6 rounded-[28px] border border-[#C8D9E6]/70 shadow-md">
+                    <h4 className="text-sm font-bold text-[#2F4156] mb-2 flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 text-[#567C8D]" />
                       Auditoría Automática de Fugas de Capital
                     </h4>
-                    <p className="text-xs text-gray-600 leading-relaxed">
+                    <p className="text-xs text-[#567C8D] leading-relaxed">
                       NlsPay audita cada micro-gasto recurrente, fluctuaciones en suscripciones y comisiones para alertarte antes del cierre contable de mes.
                     </p>
                   </div>
-                  <div className="bg-white p-6 rounded-[28px] border border-gray-200/80 shadow-md">
-                    <h4 className="text-sm font-bold text-gray-900 mb-2 flex items-center gap-2">
-                      <Layers className="w-4 h-4 text-indigo-600" />
+                  <div className="bg-white p-6 rounded-[28px] border border-[#C8D9E6]/70 shadow-md">
+                    <h4 className="text-sm font-bold text-[#2F4156] mb-2 flex items-center gap-2">
+                      <Layers className="w-4 h-4 text-[#567C8D]" />
                       Optimización Fiscal & Conciliación
                     </h4>
-                    <p className="text-xs text-gray-600 leading-relaxed">
+                    <p className="text-xs text-[#567C8D] leading-relaxed">
                       Tus gastos se organizan automáticamente para deducción de impuestos y emisión de reportes financieros certificados.
                     </p>
                   </div>
@@ -376,29 +399,29 @@ export function App() {
             )}
           </div>
 
-          {/* Quick Footer */}
-          <div className="relative z-10 pt-6 mt-6 border-t border-gray-200/60 flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#9ca3af]">
-            <span>NlsPay Ecosystem • Tu dinero. Tu control.</span>
-            <div className="flex items-center gap-3 mt-2 sm:mt-0 font-medium">
+          {/* Quick Footer in Corporate Palette */}
+          <div className="relative z-10 pt-6 mt-6 border-t border-[#C8D9E6]/60 flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#567C8D]">
+            <span>{t.ecosystemFooter}</span>
+            <div className="flex items-center gap-3 mt-2 sm:mt-0 font-bold">
               <button
                 onClick={() => setIsAddTransactionModalOpen(true)}
-                className="hover:text-blue-600 transition-colors"
+                className="hover:text-[#2F4156] transition-colors"
               >
-                + Registrar Gasto
+                + {t.newExpense}
               </button>
               <span>•</span>
               <button
                 onClick={() => setIsTransferModalOpen(true)}
-                className="hover:text-blue-600 transition-colors"
+                className="hover:text-[#2F4156] transition-colors"
               >
-                Transferir Fondos
+                {t.actionTransfer}
               </button>
               <span>•</span>
               <button
                 onClick={() => setIsScannerModalOpen(true)}
-                className="hover:text-blue-600 transition-colors"
+                className="hover:text-[#2F4156] transition-colors"
               >
-                Escáner OCR
+                {t.ocrScannerTitle}
               </button>
             </div>
           </div>
@@ -430,6 +453,14 @@ export function App() {
       />
 
     </div>
+  );
+}
+
+export function App() {
+  return (
+    <LanguageProvider>
+      <AppContent />
+    </LanguageProvider>
   );
 }
 
