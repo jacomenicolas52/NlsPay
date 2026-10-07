@@ -2,11 +2,46 @@ export type TransactionType = 'expense' | 'income';
 
 export type PaymentMethod = 
   | 'Tarjeta Débito (NlsPay)'
-  | 'Visa Platinum •••• 4829'
-  | 'Mastercard Black •••• 9102'
+  | 'Visa Platinum •••• 1810'
+  | 'Mastercard Black •••• 1423'
   | 'Apple Pay'
   | 'Transferencia Bancaria'
   | 'Efectivo';
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  avatar?: string;
+}
+
+export interface CardData {
+  id: string;
+  type: 'visa' | 'mastercard';
+  balance: number;
+  currencySymbol: string;
+  lastFour: string;
+  expiryDate: string;
+  theme: 'dark' | 'light';
+}
+
+export interface RecentSale {
+  id: string;
+  senderName: string;
+  senderAvatar: string;
+  date: string;
+  status: 'success' | 'process' | 'failed';
+  amount: number;
+}
+
+export interface StatisticTransaction {
+  id: string;
+  title: string;
+  category: string;
+  timeAgo: string;
+  amount: number;
+  icon: 'spotify' | 'apple' | 'bitcoin' | 'binance';
+}
 
 export interface Transaction {
   id: string;
@@ -35,7 +70,7 @@ export interface Budget {
   category: string;
   spent: number;
   limit: number;
-  warningThreshold: number; // e.g. 0.85
+  warningThreshold: number;
   color: string;
 }
 

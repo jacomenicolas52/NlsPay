@@ -1,4 +1,105 @@
-import type { Transaction, CategoryStructure, Budget, FinancialGoal, AIInsight, MonthlyCashflow } from '../types';
+import type { 
+  Transaction, 
+  CategoryStructure, 
+  Budget, 
+  FinancialGoal, 
+  AIInsight, 
+  MonthlyCashflow,
+  CardData,
+  RecentSale,
+  StatisticTransaction
+} from '../types';
+
+export const DEFAULT_CARDS: CardData[] = [
+  {
+    id: 'card-1',
+    type: 'visa',
+    balance: 15780.0,
+    currencySymbol: '$',
+    lastFour: '1810',
+    expiryDate: '10/24',
+    theme: 'dark'
+  },
+  {
+    id: 'card-2',
+    type: 'mastercard',
+    balance: 123424.0,
+    currencySymbol: '₴',
+    lastFour: '1423',
+    expiryDate: '10/24',
+    theme: 'light'
+  }
+];
+
+export const RECENT_SALES: RecentSale[] = [
+  {
+    id: 'sale-1',
+    senderName: 'James Smith',
+    senderAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80',
+    date: 'Mar 18, 2023',
+    status: 'success',
+    amount: -1980.0
+  },
+  {
+    id: 'sale-2',
+    senderName: 'George Holoster',
+    senderAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&auto=format&fit=crop&q=80',
+    date: 'Mar 10, 2023',
+    status: 'process',
+    amount: -880.0
+  },
+  {
+    id: 'sale-3',
+    senderName: 'Daniela Gordienko',
+    senderAvatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&auto=format&fit=crop&q=80',
+    date: 'Mar 21, 2023',
+    status: 'failed',
+    amount: -1240.0
+  }
+];
+
+export const STATISTIC_TRANSACTIONS: StatisticTransaction[] = [
+  {
+    id: 'st-1',
+    title: 'Spotify',
+    category: 'Payment at the store',
+    timeAgo: '11 minuets ago',
+    amount: -321,
+    icon: 'spotify'
+  },
+  {
+    id: 'st-2',
+    title: 'Apple',
+    category: 'Payment at the store',
+    timeAgo: '32 minuets ago',
+    amount: -552,
+    icon: 'apple'
+  },
+  {
+    id: 'st-3',
+    title: 'Bitcoin',
+    category: 'Money transaction',
+    timeAgo: '1 hour ago',
+    amount: -123,
+    icon: 'bitcoin'
+  },
+  {
+    id: 'st-4',
+    title: 'Apple',
+    category: 'Payment at the store',
+    timeAgo: '3 hour 21 minuets ago',
+    amount: -242,
+    icon: 'apple'
+  },
+  {
+    id: 'st-5',
+    title: 'Binance',
+    category: 'Money transaction',
+    timeAgo: '1 day ago',
+    amount: -160,
+    icon: 'binance'
+  }
+];
 
 export const CATEGORIES: CategoryStructure[] = [
   {
@@ -86,7 +187,7 @@ export const INITIAL_TRANSACTIONS: Transaction[] = [
     type: 'expense',
     category: 'Tecnología & SaaS',
     subcategory: 'Suscripciones Cloud',
-    paymentMethod: 'Visa Platinum •••• 4829',
+    paymentMethod: 'Visa Platinum •••• 1810',
     date: '2026-10-04T15:20:00Z',
     isRecurring: true,
     status: 'completed',
@@ -99,7 +200,7 @@ export const INITIAL_TRANSACTIONS: Transaction[] = [
     type: 'expense',
     category: 'Alimentación & Gastronomía',
     subcategory: 'Restaurantes & Bares',
-    paymentMethod: 'Mastercard Black •••• 9102',
+    paymentMethod: 'Mastercard Black •••• 1423',
     date: '2026-10-03T21:30:00Z',
     isRecurring: false,
     status: 'completed',

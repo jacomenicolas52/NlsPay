@@ -22,8 +22,8 @@ interface AddTransactionModalProps {
 
 const PAYMENT_METHODS: PaymentMethod[] = [
   'Tarjeta Débito (NlsPay)',
-  'Visa Platinum •••• 4829',
-  'Mastercard Black •••• 9102',
+  'Visa Platinum •••• 1810',
+  'Mastercard Black •••• 1423',
   'Apple Pay',
   'Transferencia Bancaria',
   'Efectivo'
