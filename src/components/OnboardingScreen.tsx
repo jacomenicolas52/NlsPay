@@ -14,8 +14,7 @@ import {
   Target, 
   PieChart, 
   Lock,
-  ChevronRight,
-  SlidersHorizontal
+  ChevronRight
 } from 'lucide-react';
 
 interface OnboardingScreenProps {
@@ -26,34 +25,16 @@ interface OnboardingScreenProps {
 export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ user: _user, onFinish }) => {
   const { t } = useLanguage();
   const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(1);
-  // Scheme toggle between 2-color contrasts:
-  // 'navy-teal': Fondo Navy (#2F4156) + Recuadro Teal (#567C8D)
-  // 'teal-navy': Fondo Teal (#567C8D) + Recuadro Navy (#2F4156)
-  const [colorScheme, setColorScheme] = useState<'navy-teal' | 'teal-navy'>('navy-teal');
-
-  const isNavyBg = colorScheme === 'navy-teal';
 
   return (
-    <div 
-      className={`min-h-screen w-full flex flex-col justify-between items-center p-3 sm:p-6 md:p-8 font-sans relative overflow-x-hidden select-none selection:bg-[#C8D9E6] selection:text-[#2F4156] transition-colors duration-500 ${
-        isNavyBg ? 'bg-[#2F4156]' : 'bg-[#567C8D]'
-      }`}
-    >
+    <div className="min-h-screen w-full bg-[#2F4156] flex flex-col justify-between items-center p-3 sm:p-6 md:p-8 font-sans relative overflow-x-hidden select-none selection:bg-[#C8D9E6] selection:text-[#2F4156]">
       
       {/* ========================================================================= */}
-      {/* 1. FUTURISTIC FINTECH VECTOR GRAPHICS (NO PHOTOS, STRICT PALETTE ONLY)     */}
+      {/* 1. FUTURISTIC FINTECH VECTOR GRAPHICS (NAVY #2F4156 OUTER BACKGROUND)      */}
       {/* ========================================================================= */}
       {/* Glowing Ambient Orbs in Palette Colors */}
-      <div 
-        className={`absolute -top-32 -left-32 w-[550px] h-[550px] rounded-full blur-[140px] pointer-events-none transition-all duration-500 ${
-          isNavyBg ? 'bg-[#567C8D]/40' : 'bg-[#C8D9E6]/30'
-        }`} 
-      />
-      <div 
-        className={`absolute top-1/2 -right-32 w-[500px] h-[500px] rounded-full blur-[140px] pointer-events-none transition-all duration-500 ${
-          isNavyBg ? 'bg-[#C8D9E6]/25' : 'bg-[#2F4156]/45'
-        }`} 
-      />
+      <div className="absolute -top-32 -left-32 w-[550px] h-[550px] rounded-full blur-[140px] pointer-events-none bg-[#567C8D]/40" />
+      <div className="absolute top-1/2 -right-32 w-[500px] h-[500px] rounded-full blur-[140px] pointer-events-none bg-[#C8D9E6]/25" />
       <div className="absolute -bottom-24 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#567C8D]/25 rounded-full blur-[150px] pointer-events-none" />
 
       {/* Cyber Fintech Grid (Financial Ledger Matrix) */}
@@ -69,7 +50,6 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ user: _user,
 
       {/* Futuristic Financial Candlestick & Waveform Vector Lines */}
       <svg className="absolute inset-0 w-full h-full opacity-20 pointer-events-none" preserveAspectRatio="none" viewBox="0 0 1440 900">
-        {/* Cashflow Growth Trendline in Sky Blue */}
         <path 
           d="M 0 650 Q 240 520 480 580 T 960 380 T 1440 180" 
           fill="none" 
@@ -77,11 +57,10 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ user: _user,
           strokeWidth="2.5" 
           strokeDasharray="8 8" 
         />
-        {/* Financial Flow Line in Teal / White */}
         <path 
           d="M 0 780 Q 360 620 720 670 T 1200 420 T 1440 290" 
           fill="none" 
-          stroke={isNavyBg ? '#567C8D' : '#FFFFFF'} 
+          stroke="#567C8D" 
           strokeWidth="3" 
         />
         {/* Subtle Candlestick bars in the background */}
@@ -115,56 +94,32 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ user: _user,
           </div>
         </div>
 
-        {/* Right Controls: Scheme Toggle & Clean Language Popover */}
-        <div className="flex items-center gap-3">
-          {/* Subtle Scheme Switcher (Navy/Teal vs Teal/Navy) */}
-          <button
-            type="button"
-            onClick={() => setColorScheme(isNavyBg ? 'teal-navy' : 'navy-teal')}
-            title="Alternar combinación de 2 colores"
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 active:bg-white/25 text-[#C8D9E6] hover:text-white border border-white/15 text-xs font-semibold transition-all"
-          >
-            <SlidersHorizontal className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">
-              {isNavyBg ? 'Fondo: Navy • Recuadro: Teal' : 'Fondo: Teal • Recuadro: Navy'}
-            </span>
-          </button>
-          
-          <LanguageSelector variant="glass" />
-        </div>
+        {/* Clean Language Popover */}
+        <LanguageSelector variant="glass" />
       </header>
 
       {/* ========================================================================= */}
-      {/* 3. CENTRAL "RECUADRO" (COLOR 2: DISTINCTIVE FLOATING CONTAINER)             */}
+      {/* 3. CENTRAL "RECUADRO" (BEIGE #F5EFEB / BLANCO + LETRAS AZUL #2F4156)        */}
       {/* ========================================================================= */}
       <main className="w-full max-w-3xl my-auto py-4 z-20 flex justify-center">
-        <div 
-          className={`w-full rounded-[36px] sm:rounded-[44px] border-2 sm:border-3 border-[#C8D9E6]/40 shadow-[0_30px_90px_rgba(0,0,0,0.4)] p-6 sm:p-10 flex flex-col items-center text-center relative overflow-hidden transition-all duration-500 ${
-            isNavyBg 
-              ? 'bg-[#567C8D]/95 border-[#C8D9E6]/50 shadow-[#2F4156]/80' 
-              : 'bg-[#2F4156]/95 border-[#C8D9E6]/40 shadow-black/50'
-          }`}
-        >
+        <div className="w-full rounded-[36px] sm:rounded-[44px] border-2 sm:border-3 border-white/90 shadow-[0_30px_90px_rgba(0,0,0,0.45)] p-6 sm:p-10 flex flex-col items-center text-center relative overflow-hidden bg-gradient-to-b from-[#FFFFFF] via-[#F5EFEB] to-[#F5EFEB] transition-all duration-300">
           
-          {/* Internal Subtle Vector Texture for the Recuadro */}
+          {/* Subtle Ledger Micro-Grid Texture */}
           <div 
-            className="absolute inset-0 opacity-[0.06] pointer-events-none"
+            className="absolute inset-0 opacity-[0.04] pointer-events-none"
             style={{
-              backgroundImage: 'radial-gradient(#FFFFFF 1.2px, transparent 1.2px)',
+              backgroundImage: 'radial-gradient(#2F4156 1.2px, transparent 1.2px)',
               backgroundSize: '24px 24px'
             }}
           />
 
-          {/* Internal Radial Glow Highlight */}
-          <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-[#C8D9E6]/20 rounded-full blur-[90px] pointer-events-none" />
-
           {/* ----------------------------------------------------------------------- */}
-          {/* 3.A. STEP BADGE PILL (Restored: • PASO 1 / 3 with Pulse Dot)           */}
+          {/* 3.A. STEP BADGE PILL (• PASO 1 / 3)                                     */}
           {/* ----------------------------------------------------------------------- */}
-          <div className="mb-6 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/15 backdrop-blur-md border border-white/25 text-white text-xs font-mono font-bold tracking-widest uppercase shadow-sm relative z-10">
-            <span className="w-2 h-2 rounded-full bg-[#C8D9E6] animate-pulse" />
-            <span className="text-[#C8D9E6]">{t.onboardingStepBadge}</span>
-            <span className="text-white font-extrabold">{currentStep} / 3</span>
+          <div className="mb-6 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-[#C8D9E6] text-[#2F4156] text-xs font-mono font-bold tracking-widest uppercase shadow-sm relative z-10">
+            <span className="w-2 h-2 rounded-full bg-[#567C8D] animate-pulse" />
+            <span className="text-[#567C8D]">{t.onboardingStepBadge}</span>
+            <span className="text-[#2F4156] font-extrabold">{currentStep} / 3</span>
           </div>
 
           {/* ----------------------------------------------------------------------- */}
@@ -177,7 +132,7 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ user: _user,
               <div className="relative w-full max-w-md h-52 sm:h-56 flex items-center justify-center">
                 
                 {/* Back Glowing Aura in Sky Blue & Teal */}
-                <div className="absolute inset-4 bg-gradient-to-r from-[#C8D9E6]/30 via-white/20 to-[#567C8D]/40 rounded-[32px] blur-xl" />
+                <div className="absolute inset-4 bg-gradient-to-r from-[#C8D9E6]/40 via-[#567C8D]/25 to-[#2F4156]/20 rounded-[32px] blur-xl" />
 
                 {/* Central Showcase Card with Animated Glowing NlsPay Logo */}
                 <div className="relative z-10 w-44 h-44 rounded-[32px] bg-gradient-to-b from-[#2F4156] via-[#2F4156]/95 to-[#1c2937] border-2 border-[#C8D9E6]/50 shadow-2xl flex flex-col items-center justify-center p-5 transform transition-transform hover:scale-105">
@@ -190,8 +145,8 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ user: _user,
                   </span>
                 </div>
 
-                {/* Left Floating Satellite Card in Beige & Navy (#F5EFEB) */}
-                <div className="absolute left-0 sm:-left-4 top-4 z-20 px-3.5 py-2 rounded-2xl bg-[#F5EFEB] border border-white shadow-xl flex items-center gap-2 transform -rotate-3 hover:rotate-0 transition-transform">
+                {/* Left Floating Satellite Card in White with Shadow */}
+                <div className="absolute left-0 sm:-left-4 top-4 z-20 px-3.5 py-2 rounded-2xl bg-white border border-[#C8D9E6] shadow-xl flex items-center gap-2 transform -rotate-3 hover:rotate-0 transition-transform">
                   <div className="w-7 h-7 rounded-xl bg-[#567C8D] text-white flex items-center justify-center shrink-0">
                     <TrendingUp className="w-4 h-4 stroke-[2.5]" />
                   </div>
@@ -218,31 +173,31 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ user: _user,
 
               </div>
 
-              {/* Large Bold Typography */}
+              {/* Large Bold Typography in Blue (#2F4156 & #567C8D) */}
               <div className="space-y-3 max-w-xl">
-                <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">
+                <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-[#2F4156] tracking-tight leading-tight">
                   <span>Bienvenido a NlsPay. </span>
-                  <span className="bg-gradient-to-r from-[#C8D9E6] via-white to-[#F5EFEB] bg-clip-text text-transparent block sm:inline">
+                  <span className="text-[#567C8D] block sm:inline">
                     Tu centro de mando financiero.
                   </span>
                 </h1>
-                <p className="text-xs sm:text-sm md:text-base text-[#F5EFEB]/90 leading-relaxed font-normal px-2">
+                <p className="text-xs sm:text-sm md:text-base text-[#2F4156]/80 leading-relaxed font-normal px-2">
                   {t.onboardingStep1Desc}
                 </p>
               </div>
 
-              {/* 3 Interactive Feature Pills */}
+              {/* 3 Feature Pills with White background and Blue text */}
               <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 pt-1">
-                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/15 border border-white/20 text-white text-xs font-semibold">
-                  <Zap className="w-3.5 h-3.5 text-[#C8D9E6]" />
+                <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-[#C8D9E6] text-[#2F4156] text-xs font-semibold shadow-xs">
+                  <Zap className="w-3.5 h-3.5 text-[#567C8D]" />
                   <span>Rastreo en tiempo real</span>
                 </div>
-                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/15 border border-white/20 text-white text-xs font-semibold">
-                  <Target className="w-3.5 h-3.5 text-[#F5EFEB]" />
+                <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-[#C8D9E6] text-[#2F4156] text-xs font-semibold shadow-xs">
+                  <Target className="w-3.5 h-3.5 text-[#567C8D]" />
                   <span>Metas de ahorro</span>
                 </div>
-                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/15 border border-white/20 text-white text-xs font-semibold">
-                  <PieChart className="w-3.5 h-3.5 text-[#C8D9E6]" />
+                <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-[#C8D9E6] text-[#2F4156] text-xs font-semibold shadow-xs">
+                  <PieChart className="w-3.5 h-3.5 text-[#567C8D]" />
                   <span>Control total</span>
                 </div>
               </div>
@@ -259,7 +214,7 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ user: _user,
               {/* Visual Showcase: AI Intelligence Hub with Live Score Gauge */}
               <div className="relative w-full max-w-md h-52 sm:h-56 flex items-center justify-center">
                 
-                <div className="absolute inset-4 bg-gradient-to-r from-[#C8D9E6]/30 via-white/20 to-[#567C8D]/40 rounded-[32px] blur-xl" />
+                <div className="absolute inset-4 bg-gradient-to-r from-[#C8D9E6]/40 via-[#567C8D]/25 to-[#2F4156]/20 rounded-[32px] blur-xl" />
 
                 {/* Center Neural Engine Card with Animated Pulsing Brain */}
                 <div className="relative z-10 w-44 h-44 rounded-[32px] bg-gradient-to-b from-[#2F4156] via-[#2F4156]/95 to-[#1c2937] border-2 border-[#C8D9E6]/50 shadow-2xl flex flex-col items-center justify-center p-5 transform transition-transform hover:scale-105">
@@ -301,27 +256,27 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ user: _user,
 
               </div>
 
-              {/* Large Bold Typography */}
+              {/* Large Bold Typography in Blue (#2F4156 & #567C8D) */}
               <div className="space-y-3 max-w-xl">
-                <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">
+                <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-[#2F4156] tracking-tight leading-tight">
                   <span>Decisiones respaldadas </span>
-                  <span className="bg-gradient-to-r from-[#C8D9E6] via-white to-[#F5EFEB] bg-clip-text text-transparent block sm:inline">
+                  <span className="text-[#567C8D] block sm:inline">
                     por inteligencia.
                   </span>
                 </h1>
-                <p className="text-xs sm:text-sm md:text-base text-[#F5EFEB]/90 leading-relaxed font-normal px-2">
+                <p className="text-xs sm:text-sm md:text-base text-[#2F4156]/80 leading-relaxed font-normal px-2">
                   {t.onboardingStep2Desc}
                 </p>
               </div>
 
               {/* AI Tags */}
               <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 pt-1">
-                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/15 border border-white/20 text-white text-xs font-semibold">
-                  <BrainCircuit className="w-3.5 h-3.5 text-[#C8D9E6]" />
+                <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-[#C8D9E6] text-[#2F4156] text-xs font-semibold shadow-xs">
+                  <BrainCircuit className="w-3.5 h-3.5 text-[#567C8D]" />
                   <span>Auditoría de gastos hormiga</span>
                 </div>
-                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/15 border border-white/20 text-white text-xs font-semibold">
-                  <ShieldCheck className="w-3.5 h-3.5 text-[#F5EFEB]" />
+                <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-[#C8D9E6] text-[#2F4156] text-xs font-semibold shadow-xs">
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#567C8D]" />
                   <span>Conciliación fiscal</span>
                 </div>
               </div>
@@ -338,7 +293,7 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ user: _user,
               {/* Visual Showcase: Mini Institutional Dashboard Preview */}
               <div className="relative w-full max-w-md h-52 sm:h-56 flex items-center justify-center">
                 
-                <div className="absolute inset-4 bg-gradient-to-r from-[#C8D9E6]/30 via-white/20 to-[#567C8D]/40 rounded-[32px] blur-xl" />
+                <div className="absolute inset-4 bg-gradient-to-r from-[#C8D9E6]/40 via-[#567C8D]/25 to-[#2F4156]/20 rounded-[32px] blur-xl" />
 
                 {/* Center Institutional Shield Card */}
                 <div className="relative z-10 w-48 h-44 rounded-[32px] bg-gradient-to-b from-[#2F4156] via-[#2F4156]/95 to-[#1c2937] border-2 border-[#C8D9E6]/50 shadow-2xl flex flex-col items-center justify-center p-5 transform transition-transform hover:scale-105">
@@ -372,22 +327,22 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ user: _user,
 
               </div>
 
-              {/* Large Bold Typography */}
+              {/* Large Bold Typography in Blue (#2F4156 & #567C8D) */}
               <div className="space-y-3 max-w-xl">
-                <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">
+                <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-[#2F4156] tracking-tight leading-tight">
                   <span>Tu ecosistema </span>
-                  <span className="bg-gradient-to-r from-[#C8D9E6] via-white to-[#F5EFEB] bg-clip-text text-transparent block sm:inline">
+                  <span className="text-[#567C8D] block sm:inline">
                     está listo.
                   </span>
                 </h1>
-                <p className="text-xs sm:text-sm md:text-base text-[#F5EFEB]/90 leading-relaxed font-normal px-2">
+                <p className="text-xs sm:text-sm md:text-base text-[#2F4156]/80 leading-relaxed font-normal px-2">
                   {t.onboardingStep3Desc}
                 </p>
               </div>
 
               {/* Ready Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/15 border border-white/20 text-white text-xs font-semibold">
-                <ShieldCheck className="w-4 h-4 text-[#C8D9E6]" />
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-[#C8D9E6] text-[#2F4156] text-xs font-semibold shadow-xs">
+                <ShieldCheck className="w-4 h-4 text-[#567C8D]" />
                 <span>Cifrado de grado bancario activo</span>
               </div>
 
@@ -397,7 +352,7 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ user: _user,
           {/* ----------------------------------------------------------------------- */}
           {/* 3.E. STEP INDICATORS & NAVIGATION BUTTONS                               */}
           {/* ----------------------------------------------------------------------- */}
-          <div className="w-full max-w-md flex flex-col items-center gap-5 mt-8 pt-4 border-t border-white/15 relative z-10">
+          <div className="w-full max-w-md flex flex-col items-center gap-5 mt-8 pt-4 border-t border-[#C8D9E6] relative z-10">
             
             {/* Step Indicator Dots */}
             <div className="flex items-center gap-2.5">
@@ -408,8 +363,8 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ user: _user,
                   onClick={() => setCurrentStep(step as 1 | 2 | 3)}
                   className={`h-2.5 rounded-full transition-all duration-300 ${
                     currentStep === step
-                      ? 'w-9 bg-white shadow-md shadow-white/40'
-                      : 'w-2.5 bg-white/30 hover:bg-white/60'
+                      ? 'w-9 bg-[#2F4156] shadow-sm'
+                      : 'w-2.5 bg-[#C8D9E6] hover:bg-[#567C8D]'
                   }`}
                   aria-label={`Ir al paso ${step}`}
                 />
@@ -423,7 +378,7 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ user: _user,
                 <button
                   type="button"
                   onClick={() => setCurrentStep((prev) => (prev - 1) as 1 | 2 | 3)}
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-[#C8D9E6] hover:text-white text-xs sm:text-sm font-bold transition-all border border-white/15"
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white hover:bg-slate-50 text-[#2F4156] text-xs sm:text-sm font-bold transition-all border border-[#C8D9E6] shadow-xs"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   <span>{t.onboardingBack}</span>
@@ -437,7 +392,7 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ user: _user,
                 <button
                   type="button"
                   onClick={() => setCurrentStep((prev) => (prev + 1) as 1 | 2 | 3)}
-                  className="flex items-center gap-2 px-7 py-3 rounded-full bg-white hover:bg-[#F5EFEB] text-[#2F4156] text-xs sm:text-sm font-black shadow-xl border border-white transition-all transform active:scale-95 ml-auto"
+                  className="flex items-center gap-2 px-7 py-3 rounded-full bg-[#2F4156] hover:bg-[#1f2b38] text-white text-xs sm:text-sm font-black shadow-lg transition-all transform active:scale-95 ml-auto cursor-pointer"
                 >
                   <span>{t.onboardingNext}</span>
                   <ChevronRight className="w-4 h-4 stroke-[3]" />
@@ -447,9 +402,9 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ user: _user,
                 <button
                   type="button"
                   onClick={onFinish}
-                  className="flex items-center justify-center gap-3 px-8 sm:px-10 py-3.5 rounded-full bg-gradient-to-r from-[#2F4156] via-[#3a526c] to-[#2F4156] hover:from-white hover:to-[#C8D9E6] hover:text-[#2F4156] text-white text-sm sm:text-base font-black shadow-2xl border-2 border-white transition-all transform hover:scale-105 active:scale-95 ml-auto group cursor-pointer"
+                  className="flex items-center justify-center gap-3 px-8 sm:px-10 py-3.5 rounded-full bg-gradient-to-r from-[#2F4156] via-[#3a526c] to-[#2F4156] hover:from-[#567C8D] hover:to-[#2F4156] text-white text-sm sm:text-base font-black shadow-xl border border-[#C8D9E6] transition-all transform hover:scale-105 active:scale-95 ml-auto group cursor-pointer"
                 >
-                  <Sparkles className="w-5 h-5 text-[#C8D9E6] group-hover:text-[#2F4156] transition-colors" />
+                  <Sparkles className="w-5 h-5 text-[#C8D9E6] group-hover:text-white transition-colors" />
                   <span>{t.onboardingCta}</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
