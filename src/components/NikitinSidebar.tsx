@@ -1,4 +1,4 @@
-import React from 'react';
+import { NlsPayLogo } from './NlsPayLogo';
 import { 
   LayoutGrid, 
   ArrowLeftRight, 
@@ -41,12 +41,10 @@ export const NikitinSidebar: React.FC<NikitinSidebarProps> = ({
       <div className="flex flex-col items-center gap-6">
         <button 
           onClick={() => setCurrentTab('dashboard')}
-          className="cursor-pointer group flex items-center justify-center w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10 transition-all"
+          className="cursor-pointer group flex items-center justify-center w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10 transition-all p-1"
           title="NlsPay Dashboard"
         >
-          <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M4 4h4.5l7 10.5V4H20v16h-4.5l-7-10.5V20H4V4z" />
-          </svg>
+          <NlsPayLogo className="w-7 h-7 drop-shadow-sm" isDark={false} />
         </button>
 
         {/* Navigation Icons with Active Indicator Dot */}

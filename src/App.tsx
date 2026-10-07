@@ -31,18 +31,8 @@ import type { User, CardData, RecentSale, Transaction } from './types';
 import { CheckCircle2, X, Sparkles, Layers } from 'lucide-react';
 
 export function App() {
-  // Check active user session from localStorage
-  const [currentUser, setCurrentUser] = useState<User | null>(() => {
-    const saved = localStorage.getItem('nlspay_session');
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch {
-        return null;
-      }
-    }
-    return null;
-  });
+  // Login appears first as requested ("primero que todo debe aparecer primero el login")
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
 
   // State with localStorage persistence
   const [cards, setCards] = useState<CardData[]>(() => {

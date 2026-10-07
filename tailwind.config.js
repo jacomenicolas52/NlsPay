@@ -12,6 +12,27 @@ export default {
         mono: ['"JetBrains Mono"', 'monospace'],
       },
       colors: {
+        navy: {
+          DEFAULT: '#2F4156',
+          dark: '#1e2d3d',
+          light: '#3e546e',
+        },
+        teal: {
+          DEFAULT: '#567C8D',
+          hover: '#486977',
+          light: '#6d92a4',
+          subtle: '#eaf0f3',
+        },
+        sky: {
+          DEFAULT: '#C8D9E6',
+          light: '#e6eff6',
+          dark: '#9fbcd0',
+        },
+        beige: {
+          DEFAULT: '#F5EFEB',
+          light: '#faf6f4',
+          dark: '#eae2dc',
+        },
         background: {
           DEFAULT: '#050811',
           subtle: '#090D1A',
