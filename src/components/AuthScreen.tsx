@@ -133,29 +133,52 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ onLoginSuccess }) => {
     <div className="min-h-screen w-full relative flex flex-col items-center justify-center p-3 sm:p-6 lg:p-8 font-sans selection:bg-[#C8D9E6] selection:text-[#2F4156] overflow-x-hidden">
       
       {/* ========================================================================= */}
-      {/* FONDO LLAMATIVO Y COHERENTE CON LA LÓGICA DE NEGOCIO (FINTECH & CAPITAL) */}
+      {/* FONDO AZUL OSCURO EXACTO (CUADRÍCULA DE PUNTOS & GRÁFICOS SUTILES)       */}
       {/* ========================================================================= */}
-      {/* Background Fintech Photography with Dark Navy Filter & Neural Mesh */}
-      <div 
-        className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat scale-105 filter blur-[1px] transition-transform duration-1000"
-        style={{
-          backgroundImage: `url("https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=2400&q=85")`
-        }}
-      />
+      <div className="fixed inset-0 z-0 bg-[#17202a]" />
       
-      {/* Navy (#2F4156) & Teal (#567C8D) Vignette Overlays for Perfect Palette Cohesion */}
-      <div className="fixed inset-0 z-0 bg-gradient-to-tr from-[#2F4156] via-[#2F4156]/92 to-[#1a2533]/96" />
-      <div className="fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#567C8D]/30 via-transparent to-transparent pointer-events-none" />
-      <div className="fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-[#C8D9E6]/15 via-transparent to-transparent pointer-events-none" />
+      {/* Soft Ambient Teal & Navy Glows */}
+      <div className="fixed -top-32 -left-32 w-[550px] h-[550px] rounded-full blur-[140px] pointer-events-none bg-[#567C8D]/30" />
+      <div className="fixed top-1/2 -right-32 w-[500px] h-[500px] rounded-full blur-[140px] pointer-events-none bg-[#C8D9E6]/20" />
+      <div className="fixed -bottom-24 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#567C8D]/20 rounded-full blur-[150px] pointer-events-none" />
 
-      {/* Subtle Topographic & Constellation Grid Texture */}
-      <div 
-        className="fixed inset-0 z-0 opacity-10 pointer-events-none"
-        style={{
-          backgroundImage: 'radial-gradient(#C8D9E6 1px, transparent 1px)',
-          backgroundSize: '28px 28px'
-        }}
-      />
+      {/* Blueprint Grid Matrix */}
+      <svg className="fixed inset-0 w-full h-full opacity-10 pointer-events-none z-0" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="fintechGridMatrixAuth" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#C8D9E6" strokeWidth="0.8" />
+            <circle cx="40" cy="40" r="1.5" fill="#C8D9E6" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#fintechGridMatrixAuth)" />
+      </svg>
+
+      {/* Financial Trendline & Candlestick Bars */}
+      <svg className="fixed inset-0 w-full h-full opacity-20 pointer-events-none z-0" preserveAspectRatio="none" viewBox="0 0 1440 900">
+        <path 
+          d="M 0 650 Q 240 520 480 580 T 960 380 T 1440 180" 
+          fill="none" 
+          stroke="#C8D9E6" 
+          strokeWidth="2.5" 
+          strokeDasharray="8 8" 
+        />
+        <path 
+          d="M 0 780 Q 360 620 720 670 T 1200 420 T 1440 290" 
+          fill="none" 
+          stroke="#567C8D" 
+          strokeWidth="3" 
+        />
+        <g stroke="#C8D9E6" strokeWidth="1" fill="#C8D9E6" opacity="0.6">
+          <line x1="120" y1="580" x2="120" y2="670" />
+          <rect x="114" y="600" width="12" height="45" rx="2" />
+          <line x1="280" y1="480" x2="280" y2="590" />
+          <rect x="274" y="500" width="12" height="60" rx="2" />
+          <line x1="840" y1="320" x2="840" y2="420" />
+          <rect x="834" y="340" width="12" height="50" rx="2" />
+          <line x1="1300" y1="180" x2="1300" y2="300" />
+          <rect x="1294" y="210" width="12" height="65" rx="2" />
+        </g>
+      </svg>
 
       {/* Top Floating Language Menu Matching the Exact Reference Popover Style */}
       <header className="w-full max-w-[1020px] flex items-center justify-between mb-4 z-20 px-2 sm:px-0">
