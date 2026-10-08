@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NlsPayLogo } from './NlsPayLogo';
 import { LanguageSelector } from './LanguageSelector';
-import { useLanguage, type Language } from '../context/LanguageContext';
+import { useLanguage } from '../context/LanguageContext';
 import type { User } from '../types';
 import { 
   BrainCircuit, 
@@ -14,18 +14,7 @@ import {
   Target, 
   PieChart, 
   Lock,
-  ChevronRight,
-  SlidersHorizontal,
-  Smartphone,
-  Tablet,
-  Monitor,
-  Maximize2,
-  X,
-  Globe,
-  CheckCircle2,
-  Info,
-  Check,
-  RotateCcw
+  Maximize
 } from 'lucide-react';
 
 interface OnboardingScreenProps {
@@ -33,182 +22,20 @@ interface OnboardingScreenProps {
   onFinish: () => void;
 }
 
-interface FeatureDetail {
-  title: string;
-  badge: string;
-  description: string;
-  metrics: { label: string; value: string }[];
-}
-
 export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ user: _user, onFinish }) => {
-  const { language, setLanguage, t } = useLanguage();
+  const { t } = useLanguage();
   const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(1);
-  
-  // 1. Device Simulator State ('fluid' | 'mobile' | 'tablet' | 'desktop')
-  const [deviceMode, setDeviceMode] = useState<'fluid' | 'mobile' | 'tablet' | 'desktop'>('fluid');
-  
-  // 2. Navbar & Language Selector Integration Options
-  // 1: 'card-navbar' (Card Navbar Flotante - Recomendada)
-  // 2: 'segmented' (Selector Segmentado [ ES | EN | PT ])
-  // 3: 'card-dropdown' (Dropdown en Card con Localización)
-  // 4: 'dock-minimal' (Dock Flexbox Minimalista)
-  const [navbarStyle, setNavbarStyle] = useState<'card-navbar' | 'segmented' | 'card-dropdown' | 'dock-minimal'>('card-navbar');
-  
-  // 3. UI Drawers & Modals
-  const [isOptionsOpen, setIsOptionsOpen] = useState(false);
-  const [activeFeatureModal, setActiveFeatureModal] = useState<FeatureDetail | null>(null);
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const [isLogoSpinning, setIsLogoSpinning] = useState(false);
-
-  // Trigger smooth toast notification
-  const showToast = (msg: string) => {
-    setToastMessage(msg);
-    setTimeout(() => {
-      setToastMessage(null);
-    }, 3200);
-  };
-
-  // 4. Logo click handler with micro-physics and smooth transition to Step 1
-  const handleLogoClick = () => {
-    setIsLogoSpinning(true);
-    setCurrentStep(1);
-    
-    const toastText = 
-      language === 'es'
-        ? 'Reiniciando al Paso 1: Tu centro de mando financiero'
-        : language === 'en'
-        ? 'Resetting to Step 1: Financial Command Center'
-        : 'Reiniciando ao Passo 1: Centro de Comando Financeiro';
-    
-    showToast(toastText);
-    setTimeout(() => setIsLogoSpinning(false), 500);
-  };
-
-  // 5. Feature Detail Dictionary for Explanatory Modals
-  const featureDetails: Record<string, FeatureDetail> = {
-    realtime: {
-      title: language === 'es' ? 'Rastreo en Tiempo Real de Liquidez' : language === 'en' ? 'Real-Time Liquidity Tracking' : 'Rastreamento em Tempo Real de Liquidez',
-      badge: 'LATENCY < 120MS',
-      description: language === 'es'
-        ? 'NlsPay se conecta con tus cuentas bancarias y pasarelas institucionales mediante APIs seguras de latencia ultrabaja. Cada ingreso o egreso se refleja en milisegundos sin desfases.'
-        : language === 'en'
-        ? 'NlsPay connects with institutional bank accounts and gateways via ultra-low latency APIs. Every deposit or outflow reflects within milliseconds with zero delay.'
-        : 'O NlsPay se conecta às suas contas bancárias e gateways institucionais por meio de APIs seguras de baixíssima latência. Cada movimentação é refletida em milissegundos.',
-      metrics: [
-        { label: 'Latencia', value: '< 120 ms' },
-        { label: 'Sincronización', value: 'Instantánea' },
-        { label: 'Monedas', value: 'COP • USD • EUR' }
-      ]
-    },
-    savings: {
-      title: language === 'es' ? 'Metas de Ahorro Inteligentes' : language === 'en' ? 'Smart Savings Goals' : 'Metas de Economia Inteligentes',
-      badge: 'ALGORITHMIC ENGINE',
-      description: language === 'es'
-        ? 'Define objetivos de capital institucional o personal. NlsPay calcula automáticamente el porcentaje óptimo de retención mensual sin comprometer tu flujo de caja operativo.'
-        : language === 'en'
-        ? 'Set institutional or personal capital targets. NlsPay dynamically computes the optimal monthly retention percentage without compromising operating cashflow.'
-        : 'Defina metas de capital institucional ou pessoal. O NlsPay calcula automaticamente a porcentagem ideal de retenção mensal sem comprometer seu fluxo de caixa operacional.',
-      metrics: [
-        { label: 'Proyección', value: '12 Meses' },
-        { label: 'Rendimiento', value: '+14.2% Proyectado' },
-        { label: 'Ajuste', value: 'Automático 24/7' }
-      ]
-    },
-    control: {
-      title: language === 'es' ? 'Control Total de Flujo y Tesorería' : language === 'en' ? 'Total Cashflow & Treasury Control' : 'Controle Total de Fluxo e Tesouraria',
-      badge: '360° VISIBILITY',
-      description: language === 'es'
-        ? 'Visibilidad completa sobre todas tus fuentes de capital. Establece techos automáticos de gastos por categoría y concilia cuentas sin margen de error humano.'
-        : language === 'en'
-        ? 'Full 360-degree visibility across all capital sources. Establish automated category spending ceilings and reconcile accounts with zero human error.'
-        : 'Visibilidade completa de 360° em todas as suas fontes de capital. Estabeleça tetos de gastos automáticos por categoria e reconcilie contas sem erros humanos.',
-      metrics: [
-        { label: 'Categorización', value: '99.4% IA' },
-        { label: 'Auditoría', value: 'Continua' },
-        { label: 'Alertas', value: 'Tiempo Real' }
-      ]
-    },
-    antExpenses: {
-      title: language === 'es' ? 'Auditoría de Gastos Hormiga' : language === 'en' ? 'Micro-Expense Audit AI' : 'Auditoria de Microgastos',
-      badge: 'PREDICTIVE NEURAL',
-      description: language === 'es'
-        ? 'Nuestra red neuronal identifica micro-transacciones repetitivas (delivery, servicios no utilizados, tarifas bancarias ocultas) y te avisa antes de que reduzcan tu margen mensual.'
-        : language === 'en'
-        ? 'Our neural network identifies repetitive micro-transactions (deliveries, unused subscriptions, hidden bank fees) and warns you before they erode monthly margins.'
-        : 'Nossa rede neural identifica microtransações repetitivas (delivery, serviços não utilizados, tarifas ocultas) e avisa você antes que diminuam sua margem mensal.',
-      metrics: [
-        { label: 'Ahorro Potencial', value: '$180.000 COP/mes' },
-        { label: 'Precisión', value: '98.7%' },
-        { label: 'Detección', value: 'Automática' }
-      ]
-    },
-    taxReconciliation: {
-      title: language === 'es' ? 'Conciliación Fiscal Automatizada' : language === 'en' ? 'Automated Tax Reconciliation' : 'Conciliação Fiscal Automatizada',
-      badge: 'INSTITUTIONAL GRADE',
-      description: language === 'es'
-        ? 'Separación inteligente entre egresos deducibles y consumos ordinarios. Genera reportes contables con trazabilidad bancaria listos para declaración o auditoría.'
-        : language === 'en'
-        ? 'Intelligent distinction between tax-deductible expenses and routine outflows. Generates accounting reports with verified banking audit trails ready for filing.'
-        : 'Separação inteligente entre despesas dedutíveis e saídas rotineiras. Gera relatórios contábeis com rastreabilidade bancária verificada pronta para auditoria.',
-      metrics: [
-        { label: 'Cumplimiento', value: '100% DIAN / IRS' },
-        { label: 'Formatos', value: 'PDF, Excel, JSON' },
-        { label: 'Trazabilidad', value: 'Bancaria' }
-      ]
-    },
-    securityVault: {
-      title: language === 'es' ? 'Cifrado de Grado Bancario' : language === 'en' ? 'Bank-Grade Encryption' : 'Criptografia de Nível Bancário',
-      badge: 'TLS 1.3 • AES-256',
-      description: language === 'es'
-        ? 'Blindaje criptográfico de extremo a extremo con TLS 1.3 y AES-256. Tus credenciales bancarias y claves privadas nunca se almacenan en texto plano ni se comparten.'
-        : language === 'en'
-        ? 'End-to-end cryptographic shielding with TLS 1.3 and AES-256. Your bank credentials and private keys are never stored in plaintext or shared with third parties.'
-        : 'Blindagem criptográfica de ponta a ponta com TLS 1.3 e AES-256. Suas credenciais bancárias e chaves privadas nunca são armazenadas em texto simples.',
-      metrics: [
-        { label: 'Estándar', value: 'AES-256-GCM' },
-        { label: 'Protocolo', value: 'TLS 1.3' },
-        { label: 'Auditoría', value: 'SOC 2 Type II' }
-      ]
-    }
-  };
-
-  // Device simulation wrapper class
-  const deviceContainerClass = 
-    deviceMode === 'mobile'
-      ? 'max-w-[390px] ring-8 ring-slate-800/80 rounded-[48px] shadow-2xl my-auto'
-      : deviceMode === 'tablet'
-      ? 'max-w-[768px] ring-8 ring-slate-800/60 rounded-[46px] shadow-2xl my-auto'
-      : deviceMode === 'desktop'
-      ? 'max-w-[1040px] my-auto'
-      : 'max-w-3xl my-auto';
 
   return (
-    <div className="min-h-screen w-full bg-[#2F4156] flex flex-col justify-between items-center p-3 sm:p-6 md:p-8 font-sans relative overflow-x-hidden select-none selection:bg-[#C8D9E6] selection:text-[#2F4156]">
+    <div className="min-h-screen w-full bg-[#17202a] flex flex-col justify-between items-center py-5 sm:py-7 px-4 font-sans relative overflow-x-hidden select-none selection:bg-[#C8D9E6] selection:text-[#2F4156]">
       
       {/* ========================================================================= */}
-      {/* 1. TOAST NOTIFICATION (Micro-interaction feedback)                         */}
+      {/* 1. FUTURISTIC FINTECH VECTOR GRAPHICS & AMBIENT GLOW                       */}
       {/* ========================================================================= */}
-      {toastMessage && (
-        <div className="fixed top-5 z-50 flex items-center gap-2.5 px-5 py-3 rounded-2xl bg-white border border-[#C8D9E6] text-[#2F4156] text-xs sm:text-sm font-bold shadow-2xl animate-in fade-in slide-in-from-top-4 duration-300">
-          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-          <span>{toastMessage}</span>
-          <button 
-            type="button"
-            onClick={() => setToastMessage(null)} 
-            className="text-slate-400 hover:text-[#2F4156] ml-2"
-          >
-            <X className="w-3.5 h-3.5" />
-          </button>
-        </div>
-      )}
-
-      {/* ========================================================================= */}
-      {/* 2. FUTURISTIC FINTECH VECTOR GRAPHICS (BLUEPRINT GRID & CANDLESTICK WAVES) */}
-      {/* ========================================================================= */}
-      {/* Ambient Lighting Orbs */}
-      <div className="absolute -top-32 -left-32 w-[550px] h-[550px] rounded-full blur-[140px] pointer-events-none bg-[#567C8D]/40" />
-      <div className="absolute top-1/2 -right-32 w-[500px] h-[500px] rounded-full blur-[140px] pointer-events-none bg-[#C8D9E6]/25" />
-      <div className="absolute -bottom-24 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#567C8D]/25 rounded-full blur-[150px] pointer-events-none" />
+      {/* Soft Ambient Teal & Navy Glows */}
+      <div className="absolute -top-32 -left-32 w-[550px] h-[550px] rounded-full blur-[140px] pointer-events-none bg-[#567C8D]/30" />
+      <div className="absolute top-1/2 -right-32 w-[500px] h-[500px] rounded-full blur-[140px] pointer-events-none bg-[#C8D9E6]/20" />
+      <div className="absolute -bottom-24 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#567C8D]/20 rounded-full blur-[150px] pointer-events-none" />
 
       {/* Blueprint Grid Matrix */}
       <svg className="absolute inset-0 w-full h-full opacity-10 pointer-events-none" xmlns="http://www.w3.org/2000/svg">
@@ -249,689 +76,337 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ user: _user,
       </svg>
 
       {/* ========================================================================= */}
-      {/* 3. RESPONSIVE HEADER WITH 4 INTEGRATION OPTIONS & INTERACTIVE LOGO        */}
+      {/* 2. TOP HEADER (UNIFIED CARD WITH LOGO & LABELED LANGUAGE SELECTOR)         */}
       {/* ========================================================================= */}
-      <header className="w-full max-w-4xl relative z-30 py-2">
-        
-        {/* OPastyle 1: Card Navbar Flotante (Recomendada) */}
-        {navbarStyle === 'card-navbar' && (
-          <div className="w-full px-4 sm:px-6 py-2.5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-lg shadow-black/20 flex items-center justify-between transition-all">
-            {/* Interactive Logo with Spring Animation & Reset */}
-            <button
-              type="button"
-              onClick={handleLogoClick}
-              title={language === 'es' ? 'Volver al Paso 1' : 'Return to Step 1'}
-              className="flex items-center gap-3 text-left group active:scale-95 transition-transform duration-200 cursor-pointer"
-            >
-              <div className={`p-2 rounded-2xl bg-white/15 backdrop-blur-md border border-white/20 shadow-lg shadow-black/40 ring-1 ring-white/15 group-hover:ring-[#C8D9E6]/60 transition-all ${isLogoSpinning ? 'rotate-12 scale-110' : ''}`}>
-                <NlsPayLogo className="w-7 h-7 drop-shadow" isDark={false} />
-              </div>
-              <div>
-                <span className="text-xl sm:text-2xl font-black tracking-tight text-white block leading-none group-hover:text-[#C8D9E6] transition-colors">
-                  NlsPay
-                </span>
-                <span className="text-[9px] sm:text-[10px] text-[#C8D9E6] font-bold tracking-widest uppercase">
-                  Financial Intelligence Hub
-                </span>
-              </div>
-            </button>
-
-            {/* Language Selector embedded in unified navbar */}
-            <div className="flex items-center gap-2">
-              <LanguageSelector variant="glass" />
-            </div>
+      <header className="w-full max-w-xl sm:max-w-2xl px-4 sm:px-6 py-2.5 rounded-2xl bg-[#1e2d3d]/90 backdrop-blur-md border border-white/10 shadow-xl flex items-center justify-between z-20 transition-all">
+        {/* NlsPay Brand with Original Vector Colors */}
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-[#2F4156] border border-white/10 shadow-md flex items-center justify-center shrink-0">
+            {/* EXACT OFFICIAL LOGO COLORS: Left #C8D9E6, Diagonal #567C8D, Right #FFFFFF */}
+            <NlsPayLogo className="w-5 h-5 drop-shadow-sm" isDark={false} />
           </div>
-        )}
-
-        {/* OPastyle 2: Selector Segmentado [ ES | EN | PT ] */}
-        {navbarStyle === 'segmented' && (
-          <div className="w-full flex items-center justify-between px-2">
-            <button
-              type="button"
-              onClick={handleLogoClick}
-              className="flex items-center gap-3 text-left group active:scale-95 transition-transform duration-200 cursor-pointer"
-            >
-              <div className="p-2 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-md ring-1 ring-white/10 group-hover:ring-[#C8D9E6]/50 transition-all">
-                <NlsPayLogo className="w-7 h-7 drop-shadow" isDark={false} />
-              </div>
-              <div>
-                <span className="text-xl sm:text-2xl font-extrabold tracking-tight text-white block leading-none">
-                  NlsPay
-                </span>
-                <span className="text-[10px] text-[#C8D9E6] font-semibold tracking-wider uppercase">
-                  Financial Intelligence Hub
-                </span>
-              </div>
-            </button>
-
-            {/* Segmented Pill Selector with Sliding Active Highlight */}
-            <div className="flex items-center p-1 rounded-2xl bg-white/15 backdrop-blur-md border border-white/25 shadow-md">
-              {(['es', 'en', 'pt'] as Language[]).map((lang) => (
-                <button
-                  key={lang}
-                  type="button"
-                  onClick={() => setLanguage(lang)}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold tracking-wider transition-all uppercase ${
-                    language === lang
-                      ? 'bg-white text-[#2F4156] shadow-md font-black scale-105'
-                      : 'text-white/80 hover:text-white hover:bg-white/10'
-                  }`}
-                >
-                  {lang}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* OPastyle 3: Dropdown en Card con Localización */}
-        {navbarStyle === 'card-dropdown' && (
-          <div className="w-full flex items-center justify-between px-2">
-            <button
-              type="button"
-              onClick={handleLogoClick}
-              className="flex items-center gap-3 text-left group active:scale-95 transition-transform duration-200 cursor-pointer"
-            >
-              <div className="p-2 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-md ring-1 ring-white/10 group-hover:ring-[#C8D9E6]/50 transition-all">
-                <NlsPayLogo className="w-7 h-7 drop-shadow" isDark={false} />
-              </div>
-              <div>
-                <span className="text-xl sm:text-2xl font-extrabold tracking-tight text-white block leading-none">
-                  NlsPay
-                </span>
-                <span className="text-[10px] text-[#C8D9E6] font-semibold tracking-wider uppercase">
-                  Financial Intelligence Hub
-                </span>
-              </div>
-            </button>
-
-            {/* Card with Flag and Region Currencies */}
-            <div className="flex items-center gap-2 px-3 py-2 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-md">
-              <span className="text-xs font-mono font-extrabold text-[#C8D9E6]">
-                {language === 'es' ? 'ES • COP/USD' : language === 'en' ? 'UK • USD' : 'PT • BRL'}
+          <div>
+            <div className="flex items-center gap-1.5 leading-none">
+              <span className="text-xl sm:text-2xl font-black tracking-tight text-white">
+                NlsPay
               </span>
-              <LanguageSelector variant="glass" />
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
             </div>
+            <span className="text-[9px] sm:text-[10px] text-[#C8D9E6] font-bold tracking-widest uppercase mt-0.5 block">
+              Financial Intelligence Hub
+            </span>
           </div>
-        )}
+        </div>
 
-        {/* OPastyle 4: Dock Flexbox Minimalista */}
-        {navbarStyle === 'dock-minimal' && (
-          <div className="w-full flex items-center justify-between px-2">
-            <button
-              type="button"
-              onClick={handleLogoClick}
-              className="flex items-center gap-3 text-left group active:scale-95 transition-transform duration-200 cursor-pointer"
-            >
-              <div className="p-2 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-md ring-1 ring-white/10 group-hover:ring-[#C8D9E6]/50 transition-all">
-                <NlsPayLogo className="w-7 h-7 drop-shadow" isDark={false} />
-              </div>
-              <div>
-                <span className="text-xl sm:text-2xl font-extrabold tracking-tight text-white block leading-none">
-                  NlsPay
-                </span>
-                <span className="text-[10px] text-[#C8D9E6] font-semibold tracking-wider uppercase">
-                  Financial Intelligence Hub
-                </span>
-              </div>
-            </button>
-
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-white/10 backdrop-blur-md border border-[#C8D9E6]/30 ring-1 ring-[#C8D9E6]/20 shadow-sm text-white">
-              <Globe className="w-4 h-4 text-[#C8D9E6]" />
-              <LanguageSelector variant="glass" />
-            </div>
-          </div>
-        )}
-
+        {/* Labeled Language Selector: [ 🌐 ES Español (ES) ∨ ] */}
+        <LanguageSelector variant="labeled" />
       </header>
 
       {/* ========================================================================= */}
-      {/* 4. CENTRAL "RECUADRO" (BEIGE #F5EFEB + BLUE TEXT + PERFECT CENTERING)       */}
+      {/* 3. CENTRAL "CONTAINER" (PERFECT SPACING, ELEGANT ADAPTATION & CLEAN SHADOW) */}
       {/* ========================================================================= */}
-      <main className={`w-full z-20 flex justify-center transition-all duration-300 ${deviceContainerClass}`}>
-        <div className="w-full rounded-[36px] sm:rounded-[44px] border-2 sm:border-3 border-white/90 shadow-[0_30px_90px_rgba(0,0,0,0.45)] p-5 sm:p-9 md:p-10 flex flex-col items-center text-center relative overflow-hidden bg-gradient-to-b from-[#FFFFFF] via-[#F5EFEB] to-[#F5EFEB] transition-all duration-300">
+      <main className="w-full max-w-[480px] sm:max-w-[530px] my-auto py-3 z-20 flex justify-center">
+        <div className="w-full rounded-[36px] sm:rounded-[42px] bg-white p-7 sm:p-9 shadow-[0_25px_80px_rgba(0,0,0,0.45)] border border-slate-100 flex flex-col items-center text-center relative transition-all duration-300">
           
-          {/* Subtle Ledger Micro-Grid Texture */}
-          <div 
-            className="absolute inset-0 opacity-[0.04] pointer-events-none"
-            style={{
-              backgroundImage: 'radial-gradient(#2F4156 1.2px, transparent 1.2px)',
-              backgroundSize: '24px 24px'
-            }}
-          />
-
           {/* ----------------------------------------------------------------------- */}
-          {/* 4.A. STEP BADGE PILL (• PASO 1 / 3)                                     */}
+          {/* 3.A. STEP BADGE PILL (• PASO 1 / 3)                                     */}
           {/* ----------------------------------------------------------------------- */}
-          <div className="mb-5 sm:mb-6 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-[#C8D9E6] text-[#2F4156] text-xs font-mono font-bold tracking-widest uppercase shadow-sm relative z-10">
-            <span className="w-2 h-2 rounded-full bg-[#567C8D] animate-pulse" />
-            <span className="text-[#567C8D]">{t.onboardingStepBadge}</span>
-            <span className="text-[#2F4156] font-extrabold">{currentStep} / 3</span>
+          <div className="mb-5 inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-100/90 text-slate-600 text-xs font-mono font-bold uppercase shadow-2xs">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span>{t.onboardingStepBadge} {currentStep} / 3</span>
           </div>
 
           {/* ----------------------------------------------------------------------- */}
-          {/* 4.B. PASO 1: LA PROMESA DE VALOR (¿Qué es NlsPay?)                      */}
+          {/* 3.B. PASO 1: LA PROMESA DE VALOR (¿Qué es NlsPay?)                      */}
           {/* ----------------------------------------------------------------------- */}
           {currentStep === 1 && (
-            <div className="w-full flex flex-col items-center space-y-5 sm:space-y-6 animate-in fade-in zoom-in-95 duration-200 relative z-10">
+            <div className="w-full flex flex-col items-center animate-in fade-in zoom-in-95 duration-200">
               
-              {/* Responsive Visual Showcase: Centered and responsive offsets */}
-              <div className="relative w-full max-w-sm sm:max-w-md h-48 sm:h-56 flex items-center justify-center">
+              {/* Visual Showcase: Dark Squircle Card with Original Logo + Satellites */}
+              <div className="relative w-full max-w-xs h-44 sm:h-48 flex items-center justify-center mb-5">
                 
-                {/* Back Glowing Aura in Sky Blue & Teal */}
-                <div className="absolute inset-4 bg-gradient-to-r from-[#C8D9E6]/40 via-[#567C8D]/25 to-[#2F4156]/20 rounded-[32px] blur-xl" />
-
-                {/* Central Showcase Card with Animated Glowing NlsPay Logo */}
-                <div className="relative z-10 w-36 h-36 sm:w-44 sm:h-44 rounded-[28px] sm:rounded-[32px] bg-gradient-to-b from-[#2F4156] via-[#2F4156]/95 to-[#1c2937] border-2 border-[#C8D9E6]/50 shadow-2xl flex flex-col items-center justify-center p-4 sm:p-5 transform transition-transform hover:scale-105">
-                  <div className="relative mb-1 sm:mb-2">
-                    <div className="absolute -inset-2 bg-[#567C8D]/70 rounded-full blur-md animate-pulse" />
-                    <NlsPayLogo className="w-13 h-13 sm:w-16 sm:h-16 relative z-10 drop-shadow-xl" isDark={false} />
+                {/* Central Dark Squircle Card */}
+                <div className="w-36 h-36 rounded-[24px] bg-[#1e2d3d] border border-white/10 shadow-2xl flex flex-col items-center justify-center p-4 relative z-10 transform transition-transform hover:scale-105">
+                  <div className="relative mb-2">
+                    <div className="absolute -inset-2 bg-[#567C8D]/50 rounded-full blur-md animate-pulse" />
+                    {/* ORIGINAL VECTOR LOGO: EXACT PALETTE COLORS */}
+                    <NlsPayLogo className="w-13 h-13 relative z-10 drop-shadow-xl" isDark={false} />
                   </div>
-                  <span className="text-[10px] sm:text-xs font-mono font-extrabold text-[#C8D9E6] tracking-wider">
+                  <span className="text-[10px] font-mono font-extrabold text-[#C8D9E6] tracking-wider">
                     NLSPAY CORE
                   </span>
                 </div>
 
-                {/* Left Floating Satellite Card in White with Shadow (No overflow on mobile) */}
-                <div className="absolute left-0 sm:-left-3 top-2 sm:top-4 z-20 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl bg-white border border-[#C8D9E6] shadow-xl flex items-center gap-2 transform -rotate-2 hover:rotate-0 transition-transform">
-                  <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-xl bg-[#567C8D] text-white flex items-center justify-center shrink-0">
-                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5]" />
+                {/* Left Satellite: Flujo de Caja */}
+                <div className="absolute -left-2 sm:-left-4 top-2 sm:top-3 z-20 px-3 py-1.5 rounded-xl bg-white border border-slate-100 shadow-xl flex items-center gap-2 transform -rotate-3 hover:rotate-0 transition-transform">
+                  <div className="w-6 h-6 rounded-lg bg-[#567C8D] text-white flex items-center justify-center shrink-0">
+                    <TrendingUp className="w-3.5 h-3.5 stroke-[2.5]" />
                   </div>
                   <div className="text-left">
-                    <span className="text-[8px] sm:text-[9px] uppercase font-bold text-[#567C8D] block leading-none">
+                    <span className="text-[8px] uppercase font-bold text-[#567C8D] block leading-none">
                       Flujo de Caja
                     </span>
-                    <span className="text-[11px] sm:text-xs font-black text-[#2F4156]">+28.4% Neto</span>
+                    <span className="text-[11px] font-black text-[#2F4156]">+28.4% Neto</span>
                   </div>
                 </div>
 
-                {/* Right Floating Satellite Card in Navy & Sky Blue (#2F4156) */}
-                <div className="absolute right-0 sm:-right-3 bottom-2 sm:bottom-4 z-20 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl bg-[#2F4156] border border-[#C8D9E6]/50 shadow-xl flex items-center gap-2 transform rotate-2 hover:rotate-0 transition-transform text-white">
-                  <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-xl bg-[#C8D9E6] text-[#2F4156] flex items-center justify-center shrink-0">
-                    <Lock className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5]" />
+                {/* Right Satellite: Bóveda Segura */}
+                <div className="absolute -right-2 sm:-right-4 bottom-2 sm:bottom-3 z-20 px-3 py-1.5 rounded-xl bg-[#1e2d3d] border border-white/10 shadow-xl flex items-center gap-2 transform rotate-3 hover:rotate-0 transition-transform text-white">
+                  <div className="w-6 h-6 rounded-lg bg-[#C8D9E6] text-[#2F4156] flex items-center justify-center shrink-0">
+                    <Lock className="w-3.5 h-3.5 stroke-[2.5]" />
                   </div>
                   <div className="text-left">
-                    <span className="text-[8px] sm:text-[9px] uppercase font-bold text-[#C8D9E6] block leading-none">
+                    <span className="text-[8px] uppercase font-bold text-[#C8D9E6] block leading-none">
                       Bóveda Segura
                     </span>
-                    <span className="text-[11px] sm:text-xs font-extrabold text-white">Analista 24/7</span>
+                    <span className="text-[11px] font-extrabold text-white">Analista 24/7</span>
                   </div>
                 </div>
 
               </div>
 
-              {/* Large Bold Typography in Blue (#2F4156 & #567C8D) */}
-              <div className="space-y-2.5 sm:space-y-3 max-w-xl">
-                <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-[#2F4156] tracking-tight leading-tight">
-                  <span>Bienvenido a NlsPay. </span>
-                  <span className="text-[#567C8D] block sm:inline">
-                    Tu centro de mando financiero.
-                  </span>
-                </h1>
-                <p className="text-xs sm:text-sm md:text-base text-[#2F4156]/80 leading-relaxed font-normal px-2">
-                  {t.onboardingStep1Desc}
-                </p>
-              </div>
+              {/* Main Headline */}
+              <h1 className="text-2xl sm:text-[28px] font-extrabold text-[#1e2d3d] tracking-tight leading-tight mb-2.5">
+                Bienvenido a NlsPay. <br />
+                <span className="text-[#0ea5e9]">Tu centro de mando financiero.</span>
+              </h1>
 
-              {/* 3 Interactive Feature Pills with Modal Trigger */}
-              <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 pt-1">
-                <button
-                  type="button"
-                  onClick={() => setActiveFeatureModal(featureDetails.realtime)}
-                  className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white hover:bg-slate-50 border border-[#C8D9E6] text-[#2F4156] text-xs font-semibold shadow-xs hover:shadow-md transition-all group"
-                >
-                  <Zap className="w-3.5 h-3.5 text-[#567C8D] group-hover:scale-110 transition-transform" />
+              {/* Description */}
+              <p className="text-xs sm:text-sm text-slate-500 leading-relaxed max-w-sm mx-auto mb-5 font-normal px-1">
+                {t.onboardingStep1Desc}
+              </p>
+
+              {/* Feature Pills */}
+              <div className="flex flex-wrap items-center justify-center gap-2 mb-5">
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600 text-xs font-medium shadow-2xs">
+                  <Zap className="w-3.5 h-3.5 text-[#0ea5e9]" />
                   <span>Rastreo en tiempo real</span>
-                  <Info className="w-3 h-3 text-slate-400 opacity-60" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveFeatureModal(featureDetails.savings)}
-                  className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white hover:bg-slate-50 border border-[#C8D9E6] text-[#2F4156] text-xs font-semibold shadow-xs hover:shadow-md transition-all group"
-                >
-                  <Target className="w-3.5 h-3.5 text-[#567C8D] group-hover:scale-110 transition-transform" />
+                </div>
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600 text-xs font-medium shadow-2xs">
+                  <Target className="w-3.5 h-3.5 text-[#567C8D]" />
                   <span>Metas de ahorro</span>
-                  <Info className="w-3 h-3 text-slate-400 opacity-60" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveFeatureModal(featureDetails.control)}
-                  className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white hover:bg-slate-50 border border-[#C8D9E6] text-[#2F4156] text-xs font-semibold shadow-xs hover:shadow-md transition-all group"
-                >
-                  <PieChart className="w-3.5 h-3.5 text-[#567C8D] group-hover:scale-110 transition-transform" />
+                </div>
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600 text-xs font-medium shadow-2xs">
+                  <PieChart className="w-3.5 h-3.5 text-[#0ea5e9]" />
                   <span>Control total</span>
-                  <Info className="w-3 h-3 text-slate-400 opacity-60" />
-                </button>
+                </div>
               </div>
 
             </div>
           )}
 
           {/* ----------------------------------------------------------------------- */}
-          {/* 4.C. PASO 2: EL DIFERENCIADOR TECNOLÓGICO (¿Qué esperar?)               */}
+          {/* 3.C. PASO 2: EL DIFERENCIADOR TECNOLÓGICO (¿Qué esperar?)               */}
           {/* ----------------------------------------------------------------------- */}
           {currentStep === 2 && (
-            <div className="w-full flex flex-col items-center space-y-5 sm:space-y-6 animate-in fade-in zoom-in-95 duration-200 relative z-10">
+            <div className="w-full flex flex-col items-center animate-in fade-in zoom-in-95 duration-200">
               
-              {/* Visual Showcase: AI Intelligence Hub with Live Score Gauge */}
-              <div className="relative w-full max-w-sm sm:max-w-md h-48 sm:h-56 flex items-center justify-center">
+              {/* Visual Showcase: Neural Brain in Cyan with Glow (Exact match to Reference) */}
+              <div className="relative w-full max-w-xs h-44 sm:h-48 flex items-center justify-center mb-5">
                 
-                <div className="absolute inset-4 bg-gradient-to-r from-[#C8D9E6]/40 via-[#567C8D]/25 to-[#2F4156]/20 rounded-[32px] blur-xl" />
-
-                {/* Center Neural Engine Card with Animated Pulsing Brain */}
-                <div className="relative z-10 w-36 h-36 sm:w-44 sm:h-44 rounded-[28px] sm:rounded-[32px] bg-gradient-to-b from-[#2F4156] via-[#2F4156]/95 to-[#1c2937] border-2 border-[#C8D9E6]/50 shadow-2xl flex flex-col items-center justify-center p-4 sm:p-5 transform transition-transform hover:scale-105">
-                  <div className="relative mb-1 sm:mb-2">
-                    <div className="absolute -inset-3 bg-[#567C8D]/60 rounded-full blur-md animate-pulse" />
-                    <BrainCircuit className="w-12 h-12 sm:w-14 sm:h-14 text-[#C8D9E6] relative z-10" strokeWidth={1.8} />
-                    <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-white absolute -top-1 -right-1 z-20 animate-bounce" />
+                {/* Central Dark Squircle Card */}
+                <div className="w-36 h-36 rounded-[24px] bg-[#1e2d3d] border border-white/10 shadow-2xl flex flex-col items-center justify-center p-4 relative z-10 transform transition-transform hover:scale-105">
+                  <div className="relative mb-2">
+                    <div className="absolute -inset-3 bg-cyan-500/30 rounded-full blur-md animate-pulse" />
+                    <BrainCircuit className="w-13 h-13 text-cyan-300 relative z-10" strokeWidth={1.8} />
+                    <Sparkles className="w-4 h-4 text-white absolute -top-1 -right-1 z-20 animate-bounce" />
                   </div>
-                  <span className="text-[9px] sm:text-[10px] font-mono font-extrabold text-[#C8D9E6] tracking-widest uppercase">
+                  <span className="text-[10px] font-mono font-extrabold text-[#C8D9E6] tracking-widest uppercase">
                     NEURAL V2
                   </span>
                 </div>
 
-                {/* Left Floating Health Score Gauge Badge */}
-                <div className="absolute left-0 sm:-left-3 top-2 sm:top-4 z-20 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl bg-white border border-[#C8D9E6] shadow-xl flex items-center gap-2 transform -rotate-2 hover:rotate-0 transition-transform">
-                  <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-xl bg-emerald-500/20 text-emerald-600 flex items-center justify-center shrink-0">
-                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
-                  </div>
+                {/* Left Satellite: Health Score (as in reference image) */}
+                <div className="absolute -left-2 sm:-left-4 top-2 sm:top-3 z-20 px-3 py-1.5 rounded-xl bg-white border border-slate-100 shadow-xl flex items-center gap-2 transform -rotate-3 hover:rotate-0 transition-transform">
+                  <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping shrink-0" />
                   <div className="text-left">
-                    <span className="text-[8px] sm:text-[9px] uppercase font-bold text-[#567C8D] block leading-none">
-                      Health Score
+                    <span className="text-[8px] uppercase font-bold text-slate-400 block leading-none">
+                      HEALTH SCORE
                     </span>
-                    <span className="text-[11px] sm:text-xs font-black text-[#2F4156]">885 / 1000</span>
+                    <span className="text-[11px] font-black text-[#1e2d3d]">
+                      885 / 1000 <span className="text-emerald-600 font-bold">(Excelente)</span>
+                    </span>
                   </div>
                 </div>
 
-                {/* Right Floating Spending Anomaly Alert Card */}
-                <div className="absolute right-0 sm:-right-3 bottom-2 sm:bottom-4 z-20 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl bg-[#2F4156] border border-[#C8D9E6]/50 shadow-xl flex items-center gap-2 transform rotate-2 hover:rotate-0 transition-transform text-white">
-                  <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-xl bg-[#567C8D] text-white flex items-center justify-center shrink-0">
+                {/* Right Satellite: Alerta Preventiva (as in reference image) */}
+                <div className="absolute -right-2 sm:-right-4 bottom-2 sm:bottom-3 z-20 px-3 py-1.5 rounded-xl bg-[#1e2d3d] border border-white/10 shadow-xl flex items-center gap-2 transform rotate-3 hover:rotate-0 transition-transform text-white">
+                  <div className="w-6 h-6 rounded-lg bg-cyan-900/60 text-cyan-400 flex items-center justify-center shrink-0">
                     <Sparkles className="w-3.5 h-3.5" />
                   </div>
                   <div className="text-left">
-                    <span className="text-[8px] sm:text-[9px] uppercase font-bold text-[#C8D9E6] block leading-none">
-                      Alerta Preventiva
+                    <span className="text-[8px] uppercase font-bold text-cyan-300 block leading-none">
+                      ALERTA PREVENTIVA
                     </span>
-                    <span className="text-[11px] sm:text-xs font-extrabold text-white">-$180k/mes</span>
+                    <span className="text-[11px] font-extrabold text-white">Ahorro: $180k/mes</span>
                   </div>
                 </div>
 
               </div>
 
-              {/* Large Bold Typography in Blue (#2F4156 & #567C8D) */}
-              <div className="space-y-2.5 sm:space-y-3 max-w-xl">
-                <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-[#2F4156] tracking-tight leading-tight">
-                  <span>Decisiones respaldadas </span>
-                  <span className="text-[#567C8D] block sm:inline">
-                    por inteligencia.
-                  </span>
-                </h1>
-                <p className="text-xs sm:text-sm md:text-base text-[#2F4156]/80 leading-relaxed font-normal px-2">
-                  {t.onboardingStep2Desc}
-                </p>
-              </div>
+              {/* Main Headline (Exact styling to reference) */}
+              <h1 className="text-2xl sm:text-[28px] font-extrabold text-[#1e2d3d] tracking-tight leading-tight mb-2.5">
+                Decisiones respaldadas por <br />
+                <span className="text-[#0ea5e9]">inteligencia.</span>
+              </h1>
 
-              {/* AI Tags with Detail Trigger */}
-              <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 pt-1">
-                <button
-                  type="button"
-                  onClick={() => setActiveFeatureModal(featureDetails.antExpenses)}
-                  className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white hover:bg-slate-50 border border-[#C8D9E6] text-[#2F4156] text-xs font-semibold shadow-xs hover:shadow-md transition-all group"
-                >
-                  <BrainCircuit className="w-3.5 h-3.5 text-[#567C8D] group-hover:scale-110 transition-transform" />
+              {/* Description */}
+              <p className="text-xs sm:text-sm text-slate-500 leading-relaxed max-w-sm mx-auto mb-5 font-normal px-1">
+                {t.onboardingStep2Desc}
+              </p>
+
+              {/* Feature Pills */}
+              <div className="flex flex-wrap items-center justify-center gap-2 mb-5">
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600 text-xs font-medium shadow-2xs">
+                  <Maximize className="w-3.5 h-3.5 text-[#0ea5e9]" />
                   <span>Auditoría de gastos hormiga</span>
-                  <Info className="w-3 h-3 text-slate-400 opacity-60" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveFeatureModal(featureDetails.taxReconciliation)}
-                  className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white hover:bg-slate-50 border border-[#C8D9E6] text-[#2F4156] text-xs font-semibold shadow-xs hover:shadow-md transition-all group"
-                >
-                  <ShieldCheck className="w-3.5 h-3.5 text-[#567C8D] group-hover:scale-110 transition-transform" />
+                </div>
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600 text-xs font-medium shadow-2xs">
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#0ea5e9]" />
                   <span>Conciliación fiscal</span>
-                  <Info className="w-3 h-3 text-slate-400 opacity-60" />
-                </button>
+                </div>
               </div>
 
             </div>
           )}
 
           {/* ----------------------------------------------------------------------- */}
-          {/* 4.D. PASO 3: EL PUENTE AL DASHBOARD (Llamado a la acción)               */}
+          {/* 3.D. PASO 3: EL PUENTE AL DASHBOARD (Llamado a la acción)               */}
           {/* ----------------------------------------------------------------------- */}
           {currentStep === 3 && (
-            <div className="w-full flex flex-col items-center space-y-5 sm:space-y-6 animate-in fade-in zoom-in-95 duration-200 relative z-10">
+            <div className="w-full flex flex-col items-center animate-in fade-in zoom-in-95 duration-200">
               
-              {/* Visual Showcase: Mini Institutional Dashboard Preview */}
-              <div className="relative w-full max-w-sm sm:max-w-md h-48 sm:h-56 flex items-center justify-center">
+              {/* Visual Showcase: Capital Disponible + Tarjetas */}
+              <div className="relative w-full max-w-xs h-44 sm:h-48 flex items-center justify-center mb-5">
                 
-                <div className="absolute inset-4 bg-gradient-to-r from-[#C8D9E6]/40 via-[#567C8D]/25 to-[#2F4156]/20 rounded-[32px] blur-xl" />
-
-                {/* Center Institutional Shield Card */}
-                <div className="relative z-10 w-40 h-40 sm:w-48 sm:h-44 rounded-[28px] sm:rounded-[32px] bg-gradient-to-b from-[#2F4156] via-[#2F4156]/95 to-[#1c2937] border-2 border-[#C8D9E6]/50 shadow-2xl flex flex-col items-center justify-center p-4 sm:p-5 transform transition-transform hover:scale-105">
-                  <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-widest text-[#C8D9E6] mb-1">
+                {/* Central Dark Squircle Card */}
+                <div className="w-36 h-36 rounded-[24px] bg-[#1e2d3d] border border-white/10 shadow-2xl flex flex-col items-center justify-center p-3 relative z-10 transform transition-transform hover:scale-105">
+                  <span className="text-[9px] uppercase font-bold tracking-widest text-[#C8D9E6] mb-0.5">
                     CAPITAL DISPONIBLE
                   </span>
-                  <span className="text-lg sm:text-xl font-black text-white font-sans">$34.820.000</span>
-                  <span className="text-[9px] sm:text-[10px] text-[#C8D9E6]/90 font-mono mt-1">
+                  <span className="text-lg font-black text-white font-sans">$34.820.000</span>
+                  <span className="text-[9px] text-[#C8D9E6]/80 font-mono mt-0.5">
                     COP • 2 Tarjetas Activas
                   </span>
-                  <div className="mt-2.5 sm:mt-3 flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-[9px] sm:text-[10px] font-bold">
+                  <div className="mt-2 flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[9px] font-bold">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                     <span>100% CONECTADO</span>
                   </div>
                 </div>
 
-                {/* Left Mini Visa Card Floating */}
-                <div className="absolute left-0 sm:-left-3 top-2 sm:top-4 z-20 px-2.5 sm:px-3.5 py-1.5 sm:py-2.5 rounded-xl sm:rounded-2xl bg-[#1b1c21] border border-[#567C8D] shadow-xl flex items-center gap-2 transform -rotate-4 hover:rotate-0 transition-transform text-white">
-                  <span className="text-[10px] sm:text-xs font-black tracking-tighter italic">VISA</span>
-                  <span className="text-[10px] sm:text-[11px] font-mono text-[#C8D9E6]">•••• 1810</span>
+                {/* Left Satellite: Visa Card */}
+                <div className="absolute -left-2 sm:-left-4 top-2 sm:top-3 z-20 px-3 py-1.5 rounded-xl bg-[#1b1c21] border border-slate-700 shadow-xl flex items-center gap-2 transform -rotate-3 hover:rotate-0 transition-transform text-white">
+                  <span className="text-[10px] font-black tracking-tighter italic">VISA</span>
+                  <span className="text-[10px] font-mono text-[#C8D9E6]">•••• 1810</span>
                 </div>
 
-                {/* Right Mini Mastercard Card Floating in White */}
-                <div className="absolute right-0 sm:-right-3 bottom-2 sm:bottom-4 z-20 px-2.5 sm:px-3.5 py-1.5 sm:py-2.5 rounded-xl sm:rounded-2xl bg-white border border-[#C8D9E6] shadow-xl flex items-center gap-2 transform rotate-4 hover:rotate-0 transition-transform text-[#2F4156]">
+                {/* Right Satellite: Mastercard */}
+                <div className="absolute -right-2 sm:-right-4 bottom-2 sm:bottom-3 z-20 px-3 py-1.5 rounded-xl bg-white border border-slate-200 shadow-xl flex items-center gap-2 transform rotate-3 hover:rotate-0 transition-transform text-[#2F4156]">
                   <div className="flex items-center -space-x-1.5">
                     <div className="w-3.5 h-3.5 rounded-full bg-[#2F4156]" />
                     <div className="w-3.5 h-3.5 rounded-full bg-[#567C8D]" />
                   </div>
-                  <span className="text-[10px] sm:text-[11px] font-mono font-bold">•••• 1423</span>
+                  <span className="text-[10px] font-mono font-bold">•••• 1423</span>
                 </div>
 
               </div>
 
-              {/* Large Bold Typography in Blue (#2F4156 & #567C8D) */}
-              <div className="space-y-2.5 sm:space-y-3 max-w-xl">
-                <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-[#2F4156] tracking-tight leading-tight">
-                  <span>Tu ecosistema </span>
-                  <span className="text-[#567C8D] block sm:inline">
-                    está listo.
-                  </span>
-                </h1>
-                <p className="text-xs sm:text-sm md:text-base text-[#2F4156]/80 leading-relaxed font-normal px-2">
-                  {t.onboardingStep3Desc}
-                </p>
-              </div>
+              {/* Main Headline */}
+              <h1 className="text-2xl sm:text-[28px] font-extrabold text-[#1e2d3d] tracking-tight leading-tight mb-2.5">
+                Tu ecosistema <br />
+                <span className="text-[#0ea5e9]">está listo.</span>
+              </h1>
 
-              {/* Ready Badge with Security Info Trigger */}
-              <button
-                type="button"
-                onClick={() => setActiveFeatureModal(featureDetails.securityVault)}
-                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white hover:bg-slate-50 border border-[#C8D9E6] text-[#2F4156] text-xs font-semibold shadow-xs hover:shadow-md transition-all group"
-              >
-                <ShieldCheck className="w-4 h-4 text-[#567C8D] group-hover:scale-110 transition-transform" />
-                <span>Cifrado de grado bancario activo</span>
-                <Info className="w-3 h-3 text-slate-400 opacity-60" />
-              </button>
+              {/* Description */}
+              <p className="text-xs sm:text-sm text-slate-500 leading-relaxed max-w-sm mx-auto mb-5 font-normal px-1">
+                {t.onboardingStep3Desc}
+              </p>
+
+              {/* Feature Pill */}
+              <div className="flex flex-wrap items-center justify-center gap-2 mb-5">
+                <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600 text-xs font-medium shadow-2xs">
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#0ea5e9]" />
+                  <span>Cifrado de grado bancario activo</span>
+                </div>
+              </div>
 
             </div>
           )}
 
           {/* ----------------------------------------------------------------------- */}
-          {/* 4.E. STEP INDICATORS & NAVIGATION BUTTONS                               */}
+          {/* 3.E. SUBTLE DIVIDER, STEP DOTS & NAVIGATION BUTTONS                     */}
           {/* ----------------------------------------------------------------------- */}
-          <div className="w-full max-w-md flex flex-col items-center gap-4 sm:gap-5 mt-7 sm:mt-8 pt-4 border-t border-[#C8D9E6] relative z-10">
-            
-            {/* Step Indicator Dots */}
-            <div className="flex items-center gap-2.5">
-              {[1, 2, 3].map((step) => (
-                <button
-                  key={step}
-                  type="button"
-                  onClick={() => setCurrentStep(step as 1 | 2 | 3)}
-                  className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
-                    currentStep === step
-                      ? 'w-9 bg-[#2F4156] shadow-sm'
-                      : 'w-2.5 bg-[#C8D9E6] hover:bg-[#567C8D]'
-                  }`}
-                  aria-label={`Ir al paso ${step}`}
-                />
-              ))}
-            </div>
+          <div className="w-36 h-px bg-slate-100 mb-4" />
 
-            {/* Action Buttons Row */}
-            <div className="w-full flex items-center justify-between gap-4">
-              {/* Back Button */}
-              {currentStep > 1 ? (
-                <button
-                  type="button"
-                  onClick={() => setCurrentStep((prev) => (prev - 1) as 1 | 2 | 3)}
-                  className="flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full bg-white hover:bg-slate-50 text-[#2F4156] text-xs sm:text-sm font-bold transition-all border border-[#C8D9E6] shadow-xs active:scale-95"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  <span>{t.onboardingBack}</span>
-                </button>
-              ) : (
-                <div className="w-20" />
-              )}
+          {/* Step Indicator Dots */}
+          <div className="flex items-center gap-2 mb-5">
+            {[1, 2, 3].map((step) => (
+              <button
+                key={step}
+                type="button"
+                onClick={() => setCurrentStep(step as 1 | 2 | 3)}
+                className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                  currentStep === step
+                    ? 'w-6 bg-[#1e2d3d]'
+                    : 'w-2 bg-slate-200 hover:bg-slate-300'
+                }`}
+                aria-label={`Ir al paso ${step}`}
+              />
+            ))}
+          </div>
 
-              {/* Next Button or Grand Finale CTA Button */}
-              {currentStep < 3 ? (
-                <button
-                  type="button"
-                  onClick={() => setCurrentStep((prev) => (prev + 1) as 1 | 2 | 3)}
-                  className="flex items-center gap-2 px-6 sm:px-7 py-3 rounded-full bg-[#2F4156] hover:bg-[#1f2b38] text-white text-xs sm:text-sm font-black shadow-lg transition-all transform active:scale-95 ml-auto cursor-pointer"
-                >
-                  <span>{t.onboardingNext}</span>
-                  <ChevronRight className="w-4 h-4 stroke-[3]" />
-                </button>
-              ) : (
-                /* Big Standout CTA Button ("Entrar a mi portal") Destapa el dashboard */
-                <button
-                  type="button"
-                  onClick={onFinish}
-                  className="flex items-center justify-center gap-3 px-7 sm:px-10 py-3.5 rounded-full bg-gradient-to-r from-[#2F4156] via-[#3a526c] to-[#2F4156] hover:from-[#567C8D] hover:to-[#2F4156] text-white text-sm sm:text-base font-black shadow-xl border border-[#C8D9E6] transition-all transform hover:scale-105 active:scale-95 ml-auto group cursor-pointer"
-                >
-                  <Sparkles className="w-5 h-5 text-[#C8D9E6] group-hover:text-white transition-colors" />
-                  <span>{t.onboardingCta}</span>
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </button>
-              )}
-            </div>
+          {/* Action Buttons Row */}
+          <div className="flex items-center justify-center gap-3 w-full max-w-xs">
+            {/* Back Button */}
+            {currentStep > 1 && (
+              <button
+                type="button"
+                onClick={() => setCurrentStep((prev) => (prev - 1) as 1 | 2 | 3)}
+                className="flex-1 py-2.5 px-5 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs sm:text-sm font-bold shadow-xs transition-all flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" />
+                <span>{t.onboardingBack}</span>
+              </button>
+            )}
 
+            {/* Next Button or Grand Finale CTA Button */}
+            {currentStep < 3 ? (
+              <button
+                type="button"
+                onClick={() => setCurrentStep((prev) => (prev + 1) as 1 | 2 | 3)}
+                className={`${
+                  currentStep === 1 ? 'w-full max-w-[200px]' : 'flex-1'
+                } py-2.5 px-6 rounded-full bg-[#1e2d3d] hover:bg-[#2F4156] text-white text-xs sm:text-sm font-bold shadow-md transition-all active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer`}
+              >
+                <span>{t.onboardingNext}</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            ) : (
+              /* Grand Finale CTA ("Entrar a mi portal") Destapa el dashboard */
+              <button
+                type="button"
+                onClick={onFinish}
+                className="flex-1 py-2.5 px-6 rounded-full bg-[#1e2d3d] hover:bg-[#2F4156] text-white text-xs sm:text-sm font-bold shadow-md transition-all active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer"
+              >
+                <span>{t.onboardingCta}</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            )}
           </div>
 
         </div>
       </main>
 
       {/* ========================================================================= */}
-      {/* 5. FOOTER WITH DEVICE SIMULATOR & DESIGN OPTIONS BUTTON                    */}
+      {/* 4. CLEAN MINIMAL FOOTER (NO DESIGN OPTIONS BUTTON)                         */}
       {/* ========================================================================= */}
-      <footer className="w-full max-w-4xl flex items-center justify-between text-[#C8D9E6]/80 text-xs py-2 px-2 z-30">
+      <footer className="w-full max-w-xl sm:max-w-2xl flex items-center justify-between text-slate-400 text-[11px] sm:text-xs py-2 px-3 z-20">
         <div className="flex items-center gap-2">
-          <span>NlsPay Ecosystem</span>
-          <span className="hidden sm:inline">• Finanzas & Control de Gastos</span>
+          <span className="w-1.5 h-1.5 rounded-full bg-[#0ea5e9]" />
+          <span>NlsPay Ecosystem • Finanzas & Control de Gastos</span>
         </div>
-
-        {/* Device Simulator & Design Options Button */}
-        <button
-          type="button"
-          onClick={() => setIsOptionsOpen(true)}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold transition-all border border-white/15 shadow-sm active:scale-95"
-        >
-          <SlidersHorizontal className="w-3.5 h-3.5 text-[#C8D9E6]" />
-          <span>Opciones de Diseño & Centrado</span>
-        </button>
+        <span>© 2026 NlsPay Institutional</span>
       </footer>
-
-      {/* ========================================================================= */}
-      {/* 6. MODAL: EXPLICATIVO DE CARACTERÍSTICAS (INTERACTIVO AL TOCAR PÍLDORAS)   */}
-      {/* ========================================================================= */}
-      {activeFeatureModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="w-full max-w-md rounded-[32px] bg-white border-2 border-[#C8D9E6] shadow-2xl p-6 sm:p-7 relative text-left animate-in zoom-in-95 duration-200">
-            {/* Close Button */}
-            <button
-              type="button"
-              onClick={() => setActiveFeatureModal(null)}
-              className="absolute top-5 right-5 p-2 rounded-full bg-slate-100 hover:bg-slate-200 text-[#2F4156] transition-colors"
-            >
-              <X className="w-4 h-4" />
-            </button>
-
-            {/* Badge & Title */}
-            <span className="px-3 py-1 rounded-full bg-[#C8D9E6]/40 text-[#2F4156] font-mono text-[10px] font-extrabold uppercase tracking-wider inline-block mb-3">
-              {activeFeatureModal.badge}
-            </span>
-            <h3 className="text-xl sm:text-2xl font-black text-[#2F4156] tracking-tight leading-snug mb-3">
-              {activeFeatureModal.title}
-            </h3>
-
-            {/* Description */}
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-5">
-              {activeFeatureModal.description}
-            </p>
-
-            {/* Metrics Grid */}
-            <div className="grid grid-cols-3 gap-2 p-3 rounded-2xl bg-[#F5EFEB] border border-[#C8D9E6]/60 mb-6 text-center">
-              {activeFeatureModal.metrics.map((m, idx) => (
-                <div key={idx} className="space-y-0.5">
-                  <span className="text-[10px] uppercase font-bold text-[#567C8D] block leading-none">{m.label}</span>
-                  <span className="text-xs font-black text-[#2F4156] block">{m.value}</span>
-                </div>
-              ))}
-            </div>
-
-            {/* Close / Action Button */}
-            <button
-              type="button"
-              onClick={() => setActiveFeatureModal(null)}
-              className="w-full py-3 rounded-2xl bg-[#2F4156] hover:bg-[#1e2d3d] text-white text-xs sm:text-sm font-black shadow-lg transition-all"
-            >
-              Entendido
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* ========================================================================= */}
-      {/* 7. MODAL / DRAWER: OPCIONES DE DISEÑO, CENTRADO Y SIMULADOR DE DISPOSITIVO */}
-      {/* ========================================================================= */}
-      {isOptionsOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/65 backdrop-blur-md animate-in fade-in duration-200">
-          <div className="w-full max-w-lg rounded-[36px] bg-[#F5EFEB] border-3 border-white shadow-2xl p-6 sm:p-8 relative text-left animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
-            
-            <div className="flex items-center justify-between pb-4 border-b border-[#C8D9E6]">
-              <div>
-                <h3 className="text-xl font-black text-[#2F4156] leading-none">
-                  Opciones de Diseño & Centrado
-                </h3>
-                <span className="text-xs text-[#567C8D] font-semibold">
-                  Personalización visual y pruebas en tiempo real
-                </span>
-              </div>
-              <button
-                type="button"
-                onClick={() => setIsOptionsOpen(false)}
-                className="p-2 rounded-full bg-white hover:bg-slate-100 text-[#2F4156] shadow-sm transition-colors"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            {/* SECTION 1: SIMULADOR DE DISPOSITIVO */}
-            <div className="py-4 space-y-2.5">
-              <span className="text-[11px] font-mono font-extrabold uppercase tracking-wider text-[#2F4156] block">
-                1. Simulador de Pantalla / Dispositivo
-              </span>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                {[
-                  { id: 'fluid', label: 'Fluido (100%)', Icon: Maximize2 },
-                  { id: 'mobile', label: 'Móvil (390px)', Icon: Smartphone },
-                  { id: 'tablet', label: 'Tablet (768px)', Icon: Tablet },
-                  { id: 'desktop', label: 'Desktop', Icon: Monitor },
-                ].map((item) => (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => setDeviceMode(item.id as typeof deviceMode)}
-                    className={`flex flex-col items-center justify-center gap-1.5 p-3 rounded-2xl border text-xs font-bold transition-all ${
-                      deviceMode === item.id
-                        ? 'bg-[#2F4156] text-white border-[#2F4156] shadow-md scale-102'
-                        : 'bg-white text-[#2F4156] border-[#C8D9E6] hover:bg-slate-50'
-                    }`}
-                  >
-                    <item.Icon className="w-4 h-4" />
-                    <span className="text-[11px]">{item.label}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* SECTION 2: 4 OPCIONES DE SELECTOR DE IDIOMA */}
-            <div className="py-4 space-y-2.5 border-t border-[#C8D9E6]">
-              <span className="text-[11px] font-mono font-extrabold uppercase tracking-wider text-[#2F4156] block">
-                2. Integración del Selector de Idioma (4 Opciones)
-              </span>
-              <div className="space-y-2">
-                {[
-                  {
-                    id: 'card-navbar',
-                    title: 'Card Navbar Flotante (Recomendada)',
-                    desc: 'Barra unificada de vidrio satinado que engloba el logo y el selector en armonía.'
-                  },
-                  {
-                    id: 'segmented',
-                    title: 'Selector Segmentado [ ES | EN | PT ]',
-                    desc: 'Botones directos con pestaña deslizante activa sin menús ocultos.'
-                  },
-                  {
-                    id: 'card-dropdown',
-                    title: 'Dropdown en Card con Localización',
-                    desc: 'Muestra código regional y monedas (USD, COP, BRL) anclado al header.'
-                  },
-                  {
-                    id: 'dock-minimal',
-                    title: 'Dock Flexbox Minimalista',
-                    desc: 'Micro-tarjeta con icono de globo y halo cyan iluminado.'
-                  }
-                ].map((opt) => (
-                  <button
-                    key={opt.id}
-                    type="button"
-                    onClick={() => setNavbarStyle(opt.id as typeof navbarStyle)}
-                    className={`w-full p-3.5 rounded-2xl border text-left transition-all flex items-start justify-between gap-3 ${
-                      navbarStyle === opt.id
-                        ? 'bg-white border-[#2F4156] ring-2 ring-[#2F4156] shadow-md'
-                        : 'bg-white/70 border-[#C8D9E6] hover:bg-white text-slate-700'
-                    }`}
-                  >
-                    <div>
-                      <span className="text-xs font-black text-[#2F4156] block">{opt.title}</span>
-                      <span className="text-[11px] text-slate-500 leading-tight block mt-0.5">{opt.desc}</span>
-                    </div>
-                    {navbarStyle === opt.id && (
-                      <div className="w-5 h-5 rounded-full bg-[#2F4156] text-white flex items-center justify-center shrink-0">
-                        <Check className="w-3 h-3 stroke-[3]" />
-                      </div>
-                    )}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* SECTION 3: REINICIO AL PASO 1 */}
-            <div className="pt-4 border-t border-[#C8D9E6] flex items-center justify-between">
-              <button
-                type="button"
-                onClick={handleLogoClick}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white border border-[#C8D9E6] text-[#2F4156] text-xs font-bold hover:bg-slate-50 transition-all shadow-xs"
-              >
-                <RotateCcw className="w-3.5 h-3.5 text-[#567C8D]" />
-                <span>Reiniciar al Paso 1</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setIsOptionsOpen(false)}
-                className="px-6 py-2.5 rounded-2xl bg-[#2F4156] hover:bg-[#1e2d3d] text-white text-xs font-black shadow-md transition-all"
-              >
-                Listo
-              </button>
-            </div>
-
-          </div>
-        </div>
-      )}
 
     </div>
   );

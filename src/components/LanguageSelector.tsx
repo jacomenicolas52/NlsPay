@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Globe } from 'lucide-react';
+import { Globe, ChevronDown } from 'lucide-react';
 import { useLanguage, type Language } from '../context/LanguageContext';
 
 interface LanguageSelectorProps {
   className?: string;
-  variant?: 'glass' | 'solid';
+  variant?: 'glass' | 'solid' | 'labeled';
 }
 
 /**
@@ -103,20 +103,38 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
 
   return (
     <div className={`relative inline-block text-left ${className}`} ref={dropdownRef}>
-      {/* Trigger Button with Globe Icon Matching Reference Image */}
-      <button
-        type="button"
-        onClick={() => setIsOpen(!isOpen)}
-        className={
-          variant === 'glass'
-            ? 'flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 active:bg-white/25 backdrop-blur-md border border-white/20 text-white text-xs font-semibold shadow-sm transition-all group'
-            : 'flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white hover:bg-[#F5EFEB] border border-[#C8D9E6] text-[#2F4156] text-xs font-semibold shadow-sm transition-all group'
-        }
-        title="Language"
-      >
-        <Globe className="w-4 h-4 text-inherit opacity-90 group-hover:scale-110 transition-transform" />
-        <span>Language</span>
-      </button>
+      {/* Trigger Button Matching Reference Image */}
+      {variant === 'labeled' ? (
+        <button
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+          className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/15 active:bg-white/20 border border-white/15 text-white text-xs font-medium shadow-sm transition-all"
+          title="Idioma"
+        >
+          <Globe className="w-3.5 h-3.5 text-[#C8D9E6]" />
+          <span className="font-mono font-bold text-[11px] text-[#C8D9E6]">
+            {language === 'es' ? 'ES' : language === 'en' ? 'EN' : 'PT'}
+          </span>
+          <span className="font-semibold text-xs text-white/95">
+            {language === 'es' ? 'Español (ES)' : language === 'en' ? 'English (UK)' : 'Português (BR)'}
+          </span>
+          <ChevronDown className="w-3.5 h-3.5 text-white/70" />
+        </button>
+      ) : (
+        <button
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+          className={
+            variant === 'glass'
+              ? 'flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 active:bg-white/25 backdrop-blur-md border border-white/20 text-white text-xs font-semibold shadow-sm transition-all group'
+              : 'flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white hover:bg-[#F5EFEB] border border-[#C8D9E6] text-[#2F4156] text-xs font-semibold shadow-sm transition-all group'
+          }
+          title="Language"
+        >
+          <Globe className="w-4 h-4 text-inherit opacity-90 group-hover:scale-110 transition-transform" />
+          <span>Language</span>
+        </button>
+      )}
 
       {/* Floating Popover Card with Triangle Arrow (Exact replica of Reference Image) */}
       {isOpen && (
