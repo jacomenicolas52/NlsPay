@@ -138,10 +138,10 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
 
       {/* Floating Popover Card with Triangle Arrow (Exact replica of Reference Image) */}
       {isOpen && (
-        <div className="absolute top-full right-0 sm:left-1/2 sm:-translate-x-1/2 mt-2.5 z-50 animate-in fade-in zoom-in-95 duration-150">
+        <div className="absolute top-full right-0 mt-2.5 z-50 animate-in fade-in zoom-in-95 duration-150">
           
           {/* Top Triangle Caret Arrow */}
-          <div className="flex justify-center -mb-1 relative z-10">
+          <div className="flex justify-end pr-6 -mb-1 relative z-10">
             <div className="w-0 h-0 border-x-[8px] border-x-transparent border-b-[8px] border-b-white drop-shadow-sm" />
           </div>
 

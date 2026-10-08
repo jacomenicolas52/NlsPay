@@ -25,10 +25,31 @@ interface OnboardingScreenProps {
 export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ user: _user, onFinish }) => {
   const { t } = useLanguage();
   const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(1);
+  const [isRestoring, setIsRestoring] = useState(false);
+  const [showRestoredToast, setShowRestoredToast] = useState(false);
+
+  // Restore onboarding state to Step 1 with smooth animation and notification
+  const handleRestore = () => {
+    setIsRestoring(true);
+    setCurrentStep(1);
+    setShowRestoredToast(true);
+    setTimeout(() => setIsRestoring(false), 700);
+    setTimeout(() => setShowRestoredToast(false), 2400);
+  };
 
   return (
     <div className="min-h-screen w-full bg-[#17202a] flex flex-col justify-between items-center py-5 sm:py-7 px-4 font-sans relative overflow-x-hidden select-none selection:bg-[#C8D9E6] selection:text-[#2F4156]">
       
+      {/* Floating Toast Notification when Restoring */}
+      {showRestoredToast && (
+        <div className="fixed top-20 z-50 animate-in fade-in slide-in-from-top-3 duration-200 pointer-events-none">
+          <div className="px-4 py-2 rounded-full bg-[#1e2d3d]/95 text-cyan-300 border border-cyan-400/40 shadow-2xl backdrop-blur-md text-xs font-semibold flex items-center gap-2">
+            <Sparkles className="w-3.5 h-3.5 text-cyan-400 animate-spin" />
+            <span>Página restaurada al inicio</span>
+          </div>
+        </div>
+      )}
+
       {/* ========================================================================= */}
       {/* 1. FUTURISTIC FINTECH VECTOR GRAPHICS & AMBIENT GLOW                       */}
       {/* ========================================================================= */}
@@ -76,22 +97,40 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ user: _user,
       </svg>
 
       {/* ========================================================================= */}
-      {/* 2. TOP HEADER (UNIFIED CARD WITH LOGO & LABELED LANGUAGE SELECTOR)         */}
+      {/* 2. TOP HEADER BAR: MÁS LARGA QUE LA UNIDAD CENTRAL (MAX-W-6XL)            */}
       {/* ========================================================================= */}
-      <header className="w-full max-w-2xl sm:max-w-3xl lg:max-w-4xl px-4 sm:px-6 py-2.5 rounded-2xl bg-[#1e2d3d]/90 backdrop-blur-md border border-white/10 shadow-xl flex items-center justify-between z-20 transition-all">
-        {/* NlsPay Brand with Original Vector Colors */}
+      <header className="w-full max-w-4xl sm:max-w-5xl lg:max-w-6xl px-4 sm:px-8 py-3 rounded-2xl bg-[#1e2d3d]/90 backdrop-blur-md border border-white/10 shadow-xl flex items-center justify-between z-20 transition-all">
+        {/* NlsPay Brand with Interactive Icon (Hover to Restore, Click to Reload) */}
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-[#2F4156] border border-white/10 shadow-md flex items-center justify-center shrink-0">
-            {/* EXACT OFFICIAL LOGO COLORS: Left #C8D9E6, Diagonal #567C8D, Right #FFFFFF */}
-            <NlsPayLogo className="w-5 h-5 drop-shadow-sm" isDark={false} />
-          </div>
+          <button
+            type="button"
+            onClick={() => window.location.reload()}
+            onMouseEnter={handleRestore}
+            title="Acerca el mouse para restaurar al inicio • Clic para recargar la página"
+            className="group relative w-10 h-10 rounded-xl bg-[#2F4156] hover:bg-[#3d546f] active:scale-95 border border-white/10 hover:border-cyan-400/50 shadow-md hover:shadow-cyan-500/25 flex items-center justify-center shrink-0 transition-all duration-300 cursor-pointer"
+          >
+            <div className={`transition-all duration-500 ${isRestoring ? 'rotate-360 scale-110' : 'group-hover:rotate-12 group-hover:scale-105'}`}>
+              {/* EXACT OFFICIAL LOGO COLORS: Left #C8D9E6, Diagonal #567C8D, Right #FFFFFF */}
+              <NlsPayLogo className="w-5 h-5 drop-shadow-sm" isDark={false} />
+            </div>
+            {/* Animated glow ping when restoring */}
+            {isRestoring && (
+              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping" />
+            )}
+          </button>
           <div>
-            <div className="flex items-center gap-1.5 leading-none">
-              <span className="text-xl sm:text-2xl font-black tracking-tight text-white">
+            <button
+              type="button"
+              onClick={handleRestore}
+              onMouseEnter={handleRestore}
+              className="flex items-center gap-1.5 leading-none text-left cursor-pointer group"
+              title="Restaurar al inicio"
+            >
+              <span className="text-xl sm:text-2xl font-black tracking-tight text-white group-hover:text-cyan-300 transition-colors">
                 NlsPay
               </span>
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-            </div>
+            </button>
             <span className="text-[9px] sm:text-[10px] text-[#C8D9E6] font-bold tracking-widest uppercase mt-0.5 block">
               Financial Intelligence Hub
             </span>
@@ -103,9 +142,9 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ user: _user,
       </header>
 
       {/* ========================================================================= */}
-      {/* 3. CENTRAL "CONTAINER" (WIDER LAYOUT, AIRY PADDING & ENLARGED TYPOGRAPHY)  */}
+      {/* 3. CENTRAL "CONTAINER" (UNIDAD CENTRAL MÁS COMPACTA QUE LA BARRA SUPERIOR)  */}
       {/* ========================================================================= */}
-      <main className="w-full max-w-2xl sm:max-w-3xl lg:max-w-4xl my-auto py-4 z-20 flex justify-center">
+      <main className="w-full max-w-2xl sm:max-w-3xl lg:max-w-[860px] my-auto py-4 z-20 flex justify-center">
         <div className="w-full rounded-[36px] sm:rounded-[44px] bg-white p-7 sm:p-12 lg:p-14 shadow-[0_25px_80px_rgba(0,0,0,0.45)] border border-slate-100 flex flex-col items-center text-center relative transition-all duration-300">
           
           {/* ----------------------------------------------------------------------- */}
@@ -125,12 +164,18 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ user: _user,
               {/* Visual Showcase: Dark Squircle Card with Original Logo + Satellites */}
               <div className="relative w-full max-w-md h-48 sm:h-56 flex items-center justify-center mb-6">
                 
-                {/* Central Dark Squircle Card */}
-                <div className="w-40 h-40 sm:w-44 sm:h-44 rounded-[28px] bg-[#1e2d3d] border border-white/10 shadow-2xl flex flex-col items-center justify-center p-4 relative z-10 transform transition-transform hover:scale-105">
+                {/* Central Dark Squircle Card with Hover Restore Interaction */}
+                <div 
+                  onMouseEnter={handleRestore}
+                  className="w-40 h-40 sm:w-44 sm:h-44 rounded-[28px] bg-[#1e2d3d] border border-white/10 shadow-2xl flex flex-col items-center justify-center p-4 relative z-10 transform transition-transform hover:scale-105 cursor-pointer group"
+                  title="Acerca el mouse para restaurar al inicio"
+                >
                   <div className="relative mb-2 flex items-center justify-center">
-                    <div className="absolute -inset-2 bg-[#567C8D]/40 rounded-full blur-md animate-pulse" />
+                    <div className={`absolute -inset-2 bg-[#567C8D]/40 rounded-full blur-md ${isRestoring ? 'animate-ping bg-cyan-400/60' : 'animate-pulse'}`} />
                     {/* RESTORED VECTOR LOGO: Centered SVG with exact original colors (#C8D9E6, #567C8D, #FFFFFF) */}
-                    <NlsPayLogo className="w-16 h-16 sm:w-20 sm:h-20 relative z-10 drop-shadow-xl shrink-0" isDark={false} />
+                    <div className={`transition-transform duration-500 ${isRestoring ? 'rotate-360 scale-110' : 'group-hover:scale-105'}`}>
+                      <NlsPayLogo className="w-16 h-16 sm:w-20 sm:h-20 relative z-10 drop-shadow-xl shrink-0" isDark={false} />
+                    </div>
                   </div>
                   <span className="text-xs sm:text-sm font-mono font-extrabold text-[#C8D9E6] tracking-wider mt-1 block">
                     NLSPAY CORE
@@ -400,7 +445,7 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ user: _user,
       {/* ========================================================================= */}
       {/* 4. CLEAN MINIMAL FOOTER (NO DESIGN OPTIONS BUTTON)                         */}
       {/* ========================================================================= */}
-      <footer className="w-full max-w-2xl sm:max-w-3xl lg:max-w-4xl flex items-center justify-between text-slate-400 text-xs sm:text-sm py-2 px-3 z-20">
+      <footer className="w-full max-w-4xl sm:max-w-5xl lg:max-w-6xl flex items-center justify-between text-slate-400 text-xs sm:text-sm py-2 px-4 z-20">
         <div className="flex items-center gap-2">
           <span className="w-1.5 h-1.5 rounded-full bg-[#0ea5e9]" />
           <span>NlsPay Ecosystem • Finanzas & Control de Gastos</span>
