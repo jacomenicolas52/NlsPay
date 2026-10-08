@@ -97,9 +97,9 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ user: _user,
       </svg>
 
       {/* ========================================================================= */}
-      {/* 2. TOP HEADER BAR: MÁS LARGA QUE LA UNIDAD CENTRAL (MAX-W-6XL)            */}
+      {/* 2. TOP HEADER BAR: MÁS LARGA QUE LA UNIDAD CENTRAL (MAX-W-7XL)            */}
       {/* ========================================================================= */}
-      <header className="w-full max-w-4xl sm:max-w-5xl lg:max-w-6xl px-4 sm:px-8 py-3 rounded-2xl bg-[#1e2d3d]/90 backdrop-blur-md border border-white/10 shadow-xl flex items-center justify-between z-20 transition-all">
+      <header className="w-[96%] max-w-6xl xl:max-w-7xl px-4 sm:px-8 py-3.5 rounded-2xl bg-[#1e2d3d]/90 backdrop-blur-md border border-white/10 shadow-xl flex items-center justify-between z-30 transition-all mb-4 sm:mb-6">
         {/* NlsPay Brand with Interactive Icon (Hover to Restore, Click to Reload) */}
         <div className="flex items-center gap-3">
           <button
@@ -142,9 +142,9 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ user: _user,
       </header>
 
       {/* ========================================================================= */}
-      {/* 3. CENTRAL "CONTAINER" (UNIDAD CENTRAL MÁS COMPACTA QUE LA BARRA SUPERIOR)  */}
+      {/* 3. CENTRAL "CONTAINER" (UNIDAD CENTRAL TOTALMENTE DESPEJADA DEL DROPDOWN) */}
       {/* ========================================================================= */}
-      <main className="w-full max-w-2xl sm:max-w-3xl lg:max-w-[860px] my-auto py-4 z-20 flex justify-center">
+      <main className="w-full max-w-xl sm:max-w-2xl lg:max-w-[760px] my-auto py-2 z-20 flex justify-center">
         <div className="w-full rounded-[36px] sm:rounded-[44px] bg-white p-7 sm:p-12 lg:p-14 shadow-[0_25px_80px_rgba(0,0,0,0.45)] border border-slate-100 flex flex-col items-center text-center relative transition-all duration-300">
           
           {/* ----------------------------------------------------------------------- */}
@@ -445,7 +445,7 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ user: _user,
       {/* ========================================================================= */}
       {/* 4. CLEAN MINIMAL FOOTER (NO DESIGN OPTIONS BUTTON)                         */}
       {/* ========================================================================= */}
-      <footer className="w-full max-w-4xl sm:max-w-5xl lg:max-w-6xl flex items-center justify-between text-slate-400 text-xs sm:text-sm py-2 px-4 z-20">
+      <footer className="w-[96%] max-w-6xl xl:max-w-7xl flex items-center justify-between text-slate-400 text-xs sm:text-sm py-2 px-4 z-20">
         <div className="flex items-center gap-2">
           <span className="w-1.5 h-1.5 rounded-full bg-[#0ea5e9]" />
           <span>NlsPay Ecosystem • Finanzas & Control de Gastos</span>

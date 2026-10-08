@@ -180,107 +180,101 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ onLoginSuccess }) => {
         </g>
       </svg>
 
-      {/* Top Floating Language Menu Matching the Exact Reference Popover Style */}
-      <header className="w-full max-w-[1020px] flex items-center justify-between mb-4 z-20 px-2 sm:px-0">
-        <div className="flex items-center gap-2.5">
-          <NlsPayLogo className="w-8 h-8 drop-shadow" isDark={false} />
-          <span className="text-xl font-extrabold text-white tracking-tight">NlsPay</span>
+      {/* Top Floating Language Menu Matching Onboarding Standard */}
+      <header className="w-full max-w-5xl xl:max-w-6xl flex items-center justify-between mb-5 z-20 px-2 sm:px-0">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-[#2F4156] border border-white/10 shadow-md flex items-center justify-center shrink-0">
+            <NlsPayLogo className="w-5 h-5 drop-shadow-sm" isDark={false} />
+          </div>
+          <div>
+            <div className="flex items-center gap-1.5 leading-none">
+              <span className="text-xl sm:text-2xl font-black tracking-tight text-white">
+                NlsPay
+              </span>
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+            </div>
+            <span className="text-[9px] sm:text-[10px] text-[#C8D9E6] font-bold tracking-widest uppercase mt-0.5 block">
+              Financial Intelligence Hub
+            </span>
+          </div>
         </div>
 
-        {/* Popover Language Selector */}
-        <LanguageSelector variant="glass" />
+        {/* Labeled Language Selector */}
+        <LanguageSelector variant="labeled" />
       </header>
 
       {/* ========================================================================= */}
-      {/* PROPUESTA 1 ÚNICA: SPLIT SCREEN WITH INNOVATION */}
+      {/* PROPUESTA SPLIT SCREEN AMPLIADA CON ESTÁNDAR VISUAL DE ONBOARDING        */}
       {/* ========================================================================= */}
-      <main className="w-full max-w-[1020px] min-h-[600px] bg-white rounded-[32px] sm:rounded-[40px] shadow-2xl shadow-black/40 border border-white/20 overflow-hidden grid grid-cols-1 lg:grid-cols-12 z-10 transition-all">
+      <main className="w-full max-w-5xl xl:max-w-6xl min-h-[660px] sm:min-h-[720px] bg-white rounded-[36px] sm:rounded-[44px] shadow-[0_25px_80px_rgba(0,0,0,0.45)] border border-slate-100 overflow-hidden grid grid-cols-1 lg:grid-cols-12 z-10 transition-all">
         
-        {/* Left Column: Navy Dark Split Screen with Logo & Quantum Neural Mesh */}
-        <div className="lg:col-span-5 bg-[#2F4156] p-6 sm:p-8 flex flex-col justify-between text-white relative overflow-hidden">
+        {/* Left Column: Navy Dark Split Screen with 3D Coin Image & Quantum Intelligence */}
+        <div className="lg:col-span-5 bg-[#1e2d3d] p-6 sm:p-9 lg:p-10 flex flex-col justify-between text-white relative overflow-hidden">
           
-          {/* Subtle background points */}
-          <div 
-            className="absolute inset-0 opacity-10 pointer-events-none"
-            style={{
-              backgroundImage: 'radial-gradient(#C8D9E6 1px, transparent 1px)',
-              backgroundSize: '20px 20px'
-            }}
-          />
+          {/* Subtle blueprint grid matrix */}
+          <svg className="absolute inset-0 w-full h-full opacity-10 pointer-events-none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="loginLeftGridMatrix" width="30" height="30" patternUnits="userSpaceOnUse">
+                <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#C8D9E6" strokeWidth="0.8" />
+                <circle cx="30" cy="30" r="1.2" fill="#C8D9E6" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#loginLeftGridMatrix)" />
+          </svg>
+
+          {/* Soft ambient glow */}
+          <div className="absolute -top-16 -left-16 w-60 h-60 bg-[#567C8D]/30 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-16 -right-16 w-60 h-60 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none" />
 
           {/* Top Logo and Tagline */}
           <div className="relative z-10">
             <div className="flex items-center gap-3">
-              <NlsPayLogo className="w-9 h-9 drop-shadow" isDark={false} />
-              <span className="text-2xl font-extrabold tracking-tight text-white">NlsPay</span>
+              <div className="w-10 h-10 rounded-xl bg-[#2F4156] border border-white/10 shadow-md flex items-center justify-center shrink-0">
+                <NlsPayLogo className="w-6 h-6 drop-shadow" isDark={false} />
+              </div>
+              <div>
+                <div className="flex items-center gap-1.5 leading-none">
+                  <span className="text-2xl font-black tracking-tight text-white">NlsPay</span>
+                  <span className="w-2 h-2 rounded-full bg-cyan-400" />
+                </div>
+                <span className="text-[10px] text-[#C8D9E6] font-bold tracking-widest uppercase mt-0.5 block">
+                  FINANCIAL INTELLIGENCE HUB
+                </span>
+              </div>
             </div>
-            <p className="text-xs text-[#C8D9E6] font-medium mt-1">
-              Tu dinero. Tu control.
+            <p className="text-xs sm:text-sm text-slate-300 font-medium mt-3 leading-relaxed">
+              Tu centro de mando financiero con analítica inteligente de capital.
             </p>
           </div>
 
-          {/* Center: Glowing 3D Quantum Neural / Geometric Polyhedron Mesh */}
-          <div className="relative z-10 py-8 flex items-center justify-center">
-            <div className="relative w-56 h-56 flex items-center justify-center">
-              {/* Radial glow aura in Teal & Sky Blue */}
-              <div className="absolute w-40 h-40 bg-[#567C8D]/45 rounded-full blur-2xl animate-pulse" />
-              <div className="absolute w-24 h-24 bg-[#C8D9E6]/30 rounded-full blur-xl" />
-
-              {/* Quantum Analytical Polyhedron SVG */}
-              <svg viewBox="0 0 200 200" className="w-full h-full relative z-10" fill="none">
-                <circle cx="100" cy="100" r="75" stroke="#567C8D" strokeWidth="1" strokeDasharray="3 3" opacity="0.4" />
-                <circle cx="100" cy="100" r="50" stroke="#C8D9E6" strokeWidth="1" opacity="0.3" />
-
-                <g stroke="#C8D9E6" strokeWidth="1.2" opacity="0.85">
-                  <line x1="100" y1="35" x2="155" y2="65" />
-                  <line x1="155" y1="65" x2="165" y2="125" />
-                  <line x1="165" y1="125" x2="125" y2="165" />
-                  <line x1="125" y1="165" x2="75" y2="165" />
-                  <line x1="75" y1="165" x2="35" y2="125" />
-                  <line x1="35" y1="125" x2="45" y2="65" />
-                  <line x1="45" y1="65" x2="100" y2="35" />
-
-                  <line x1="100" y1="35" x2="100" y2="100" stroke="#567C8D" strokeWidth="1.5" />
-                  <line x1="155" y1="65" x2="100" y2="100" stroke="#567C8D" strokeWidth="1.5" />
-                  <line x1="165" y1="125" x2="100" y2="100" stroke="#567C8D" strokeWidth="1.5" />
-                  <line x1="125" y1="165" x2="100" y2="100" stroke="#567C8D" strokeWidth="1.5" />
-                  <line x1="75" y1="165" x2="100" y2="100" stroke="#567C8D" strokeWidth="1.5" />
-                  <line x1="35" y1="125" x2="100" y2="100" stroke="#567C8D" strokeWidth="1.5" />
-                  <line x1="45" y1="65" x2="100" y2="100" stroke="#567C8D" strokeWidth="1.5" />
-
-                  <line x1="45" y1="65" x2="155" y2="65" stroke="#567C8D" strokeWidth="0.8" opacity="0.6" />
-                  <line x1="35" y1="125" x2="165" y2="125" stroke="#567C8D" strokeWidth="0.8" opacity="0.6" />
-                  <line x1="45" y1="65" x2="125" y2="165" stroke="#C8D9E6" strokeWidth="0.8" opacity="0.5" />
-                  <line x1="155" y1="65" x2="75" y2="165" stroke="#C8D9E6" strokeWidth="0.8" opacity="0.5" />
-                </g>
-
-                <g fill="#FFFFFF">
-                  <circle cx="100" cy="35" r="3.5" fill="#C8D9E6" />
-                  <circle cx="155" cy="65" r="3.5" fill="#C8D9E6" />
-                  <circle cx="165" cy="125" r="3.5" fill="#C8D9E6" />
-                  <circle cx="125" cy="165" r="3.5" fill="#C8D9E6" />
-                  <circle cx="75" cy="165" r="3.5" fill="#C8D9E6" />
-                  <circle cx="35" cy="125" r="3.5" fill="#C8D9E6" />
-                  <circle cx="45" cy="65" r="3.5" fill="#C8D9E6" />
-                  <circle cx="100" cy="100" r="5" fill="#FFFFFF" />
-                  <circle cx="100" cy="100" r="9" stroke="#C8D9E6" strokeWidth="1.5" opacity="0.75" />
-                </g>
-              </svg>
+          {/* Center: The User-Requested 3D NlsPay Emblem with Precision Dimensions */}
+          <div className="relative z-10 py-4 sm:py-6 flex items-center justify-center my-auto">
+            <div className="relative w-64 h-64 sm:w-72 sm:h-72 lg:w-80 lg:h-80 rounded-3xl overflow-hidden shadow-2xl border border-cyan-500/20 group flex items-center justify-center bg-[#17202a]">
+              {/* Cyan & Teal ambient halo glow */}
+              <div className="absolute -inset-3 bg-cyan-500/25 rounded-full blur-2xl animate-pulse" />
+              <img 
+                src="/nlspay-3d-coin.jpg" 
+                alt="NlsPay Institutional Token" 
+                className="w-full h-full object-cover object-center relative z-10 rounded-2xl transition-transform duration-700 group-hover:scale-105"
+              />
+              {/* Precision high-tech overlay border */}
+              <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/15 pointer-events-none z-20" />
             </div>
           </div>
 
-          {/* Bottom: Feature Callouts */}
-          <div className="relative z-10 pt-4 border-t border-[#567C8D]/40">
-            <h3 className="text-sm font-bold text-white mb-2 tracking-wide">
-              {t.quantumTitle}
+          {/* Bottom: Feature Callouts matching Onboarding styling */}
+          <div className="relative z-10 pt-4 border-t border-white/10">
+            <h3 className="text-xs sm:text-sm font-bold text-white mb-2 tracking-wide flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>{t.quantumTitle}</span>
             </h3>
-            <ul className="space-y-1.5 text-xs text-[#C8D9E6]">
+            <ul className="space-y-1.5 text-xs text-[#C8D9E6]/90">
               <li className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#C8D9E6]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
                 <span>{t.quantumBullet1}</span>
               </li>
               <li className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#567C8D]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#C8D9E6]" />
                 <span>{t.quantumBullet2}</span>
               </li>
             </ul>
@@ -288,27 +282,27 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ onLoginSuccess }) => {
 
         </div>
 
-        {/* Right Column: Clean White Form Panel */}
-        <div className="lg:col-span-7 p-6 sm:p-10 flex flex-col justify-center bg-white">
-          <div className="w-full max-w-sm mx-auto flex flex-col justify-center">
+        {/* Right Column: Clean White Form Panel with Onboarding Typography & Colors */}
+        <div className="lg:col-span-7 p-7 sm:p-12 lg:p-14 flex flex-col justify-center bg-white">
+          <div className="w-full max-w-md mx-auto flex flex-col justify-center">
             
-            {/* Title */}
-            <div className="text-center mb-6">
-              <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#2F4156]">
+            {/* Title matching Onboarding typography */}
+            <div className="text-center mb-7">
+              <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-[#1e2d3d] leading-tight">
                 {isRegistering ? t.registerTitle : t.loginTitle}
               </h2>
-              <p className="text-xs sm:text-sm mt-1.5 text-[#567C8D]">
+              <p className="text-sm sm:text-base mt-2 text-slate-500 font-normal leading-relaxed">
                 {isRegistering ? t.registerSubtitle : t.loginSubtitle}
               </p>
             </div>
 
             {error && (
-              <div className="mb-4 p-2.5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-600 text-xs text-center font-semibold animate-pulse">
+              <div className="mb-5 p-3 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-600 text-xs sm:text-sm text-center font-semibold animate-pulse">
                 {error}
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
               {/* Name Field (Registering only) */}
               {isRegistering && (
                 <div>
@@ -319,9 +313,9 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ onLoginSuccess }) => {
                       placeholder={t.fullNamePlaceholder}
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      className="w-full text-xs sm:text-sm rounded-full pl-5 pr-11 py-3 focus:outline-none transition-all placeholder:text-[#567C8D]/60 bg-[#F5EFEB]/50 border border-[#C8D9E6] text-[#2F4156] focus:border-[#567C8D] focus:ring-2 focus:ring-[#567C8D]/15"
+                      className="w-full text-sm sm:text-base rounded-full pl-6 pr-12 py-3.5 sm:py-4 focus:outline-none transition-all placeholder:text-slate-400 bg-slate-50 border border-slate-200 text-[#1e2d3d] focus:border-[#0ea5e9] focus:ring-4 focus:ring-[#0ea5e9]/10"
                     />
-                    <UserIcon className="w-4 h-4 absolute right-4 pointer-events-none text-[#567C8D]" />
+                    <UserIcon className="w-4 h-4 absolute right-5 pointer-events-none text-slate-400" />
                   </div>
                 </div>
               )}
@@ -335,9 +329,9 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ onLoginSuccess }) => {
                     placeholder={t.emailPlaceholder}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full text-xs sm:text-sm rounded-full pl-5 pr-11 py-3 focus:outline-none transition-all placeholder:text-[#567C8D]/60 bg-[#F5EFEB]/50 border border-[#C8D9E6] text-[#2F4156] focus:border-[#567C8D] focus:ring-2 focus:ring-[#567C8D]/15"
+                    className="w-full text-sm sm:text-base rounded-full pl-6 pr-12 py-3.5 sm:py-4 focus:outline-none transition-all placeholder:text-slate-400 bg-slate-50 border border-slate-200 text-[#1e2d3d] focus:border-[#0ea5e9] focus:ring-4 focus:ring-[#0ea5e9]/10"
                   />
-                  <Mail className="w-4 h-4 absolute right-4 pointer-events-none text-[#567C8D]" />
+                  <Mail className="w-4 h-4 absolute right-5 pointer-events-none text-slate-400" />
                 </div>
               </div>
 
@@ -350,12 +344,12 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ onLoginSuccess }) => {
                     placeholder={t.passwordPlaceholder}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full text-xs sm:text-sm rounded-full pl-5 pr-11 py-3 focus:outline-none transition-all placeholder:text-[#567C8D]/60 bg-[#F5EFEB]/50 border border-[#C8D9E6] text-[#2F4156] focus:border-[#567C8D] focus:ring-2 focus:ring-[#567C8D]/15"
+                    className="w-full text-sm sm:text-base rounded-full pl-6 pr-12 py-3.5 sm:py-4 focus:outline-none transition-all placeholder:text-slate-400 bg-slate-50 border border-slate-200 text-[#1e2d3d] focus:border-[#0ea5e9] focus:ring-4 focus:ring-[#0ea5e9]/10"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 transition-colors text-[#567C8D] hover:text-[#2F4156]"
+                    className="absolute right-5 transition-colors text-slate-400 hover:text-[#1e2d3d] cursor-pointer"
                     title={showPassword ? 'Ocultar' : 'Mostrar'}
                   >
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -364,28 +358,28 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ onLoginSuccess }) => {
               </div>
 
               {/* Remember me & Forgot Password */}
-              <div className="flex items-center justify-between text-[11px] sm:text-xs pt-0.5 text-[#567C8D]">
+              <div className="flex items-center justify-between text-xs sm:text-sm pt-0.5 text-slate-500">
                 <label className="flex items-center gap-2 cursor-pointer select-none">
                   <input
                     type="checkbox"
                     checked={rememberMe}
                     onChange={(e) => setRememberMe(e.target.checked)}
-                    className="rounded border-[#567C8D] text-[#567C8D] focus:ring-[#567C8D] w-3.5 h-3.5"
+                    className="rounded border-slate-300 text-[#0ea5e9] focus:ring-[#0ea5e9] w-4 h-4 cursor-pointer"
                   />
                   <span>{t.remember30Days}</span>
                 </label>
                 <button
                   type="button"
-                  className="font-semibold hover:underline transition-colors text-[#567C8D] hover:text-[#2F4156]"
+                  className="font-semibold hover:underline transition-colors text-[#0ea5e9] hover:text-[#1e2d3d] cursor-pointer"
                 >
                   {t.forgotPassword}
                 </button>
               </div>
 
-              {/* Submit Button */}
+              {/* Submit Button matching Onboarding CTA */}
               <button
                 type="submit"
-                className="w-full py-3.5 rounded-full bg-[#567C8D] hover:bg-[#2F4156] text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all duration-200 transform active:scale-[0.99] flex items-center justify-center gap-2"
+                className="w-full py-4 px-6 rounded-full bg-[#1e2d3d] hover:bg-[#2F4156] text-white font-bold text-sm sm:text-base shadow-lg shadow-sky-950/20 hover:shadow-xl transition-all duration-200 transform active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer"
               >
                 <span>{isRegistering ? t.createAccountBtn : t.signInBtn}</span>
                 <ArrowRight className="w-4 h-4" />
@@ -393,8 +387,8 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ onLoginSuccess }) => {
             </form>
 
             {/* Toggle between Login and Register */}
-            <div className="mt-5 text-center text-xs">
-              <span className="text-[#567C8D]">
+            <div className="mt-6 text-center text-xs sm:text-sm">
+              <span className="text-slate-500">
                 {isRegistering ? t.alreadyHaveAccount : t.dontHaveAccount}{' '}
               </span>
               <button
@@ -403,20 +397,20 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ onLoginSuccess }) => {
                   setIsRegistering(!isRegistering);
                   setError(null);
                 }}
-                className="font-bold hover:underline transition-colors text-[#2F4156]"
+                className="font-bold hover:underline transition-colors text-[#0ea5e9] hover:text-[#1e2d3d] cursor-pointer"
               >
                 {isRegistering ? t.signInBtn : t.createAccountBtn}
               </button>
             </div>
 
             {/* Social / Demo Quick Login */}
-            <div className="mt-5 flex items-center justify-center gap-3">
+            <div className="mt-6 flex items-center justify-center gap-3">
               {/* Apple */}
               <button
                 type="button"
                 onClick={handleQuickDemoLogin}
                 title="Apple Login"
-                className="w-9 h-9 rounded-full border border-[#C8D9E6] bg-white hover:bg-[#F5EFEB] text-[#2F4156] flex items-center justify-center transition-all"
+                className="w-10 h-10 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 flex items-center justify-center transition-all shadow-xs active:scale-95 cursor-pointer"
               >
                 <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                   <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.84c.66-.82 1.11-1.96.99-3.1-.96.04-2.11.64-2.79 1.44-.59.69-1.11 1.83-.97 2.94 1.07.08 2.14-.54 2.77-1.28z"/>
@@ -428,7 +422,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ onLoginSuccess }) => {
                 type="button"
                 onClick={handleQuickDemoLogin}
                 title="Google Login"
-                className="w-9 h-9 rounded-full border border-[#C8D9E6] bg-white hover:bg-[#F5EFEB] flex items-center justify-center transition-all"
+                className="w-10 h-10 rounded-full border border-slate-200 bg-white hover:bg-slate-50 flex items-center justify-center transition-all shadow-xs active:scale-95 cursor-pointer"
               >
                 <svg className="w-4 h-4" viewBox="0 0 24 24">
                   <path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.4l3.7 2.9C6.5 7.4 9 5 12 5z" />
@@ -443,18 +437,18 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ onLoginSuccess }) => {
                 type="button"
                 onClick={handleQuickDemoLogin}
                 title="Entrar con Modo Demo"
-                className="px-3 py-1.5 rounded-full border border-[#C8D9E6] bg-white text-[#2F4156] hover:bg-[#F5EFEB] text-[11px] font-bold flex items-center gap-1.5 transition-all shadow-xs"
+                className="px-4 py-2 rounded-full border border-slate-200 bg-white text-[#1e2d3d] hover:bg-slate-50 text-xs sm:text-sm font-bold flex items-center gap-2 transition-all shadow-xs active:scale-95 cursor-pointer"
               >
-                <Sparkles className="w-3.5 h-3.5 text-[#567C8D]" />
+                <Sparkles className="w-3.5 h-3.5 text-[#0ea5e9]" />
                 <span>{t.demoAccess}</span>
               </button>
             </div>
 
             {/* Footer info */}
-            <div className="mt-8 text-center text-[11px] flex items-center justify-center gap-3 text-[#567C8D]">
-              <a href="#terminos" className="hover:underline">{t.terms}</a>
+            <div className="mt-8 text-center text-xs flex items-center justify-center gap-3 text-slate-400">
+              <a href="#terminos" className="hover:text-slate-600 transition-colors">{t.terms}</a>
               <span>•</span>
-              <a href="#soporte" className="hover:underline">{t.support}</a>
+              <a href="#soporte" className="hover:text-slate-600 transition-colors">{t.support}</a>
             </div>
 
           </div>
